@@ -1,0 +1,11 @@
+.fit-cover {
+  object-fit: cover;
+}
+
+.setting_input {
+  border-radius: 15px;
+  border-width: 4px;
+  background-color: #e0e0e0;
+  border-color: #e0e0e0;
+}
+
