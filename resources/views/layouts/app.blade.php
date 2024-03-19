@@ -13,6 +13,8 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+       
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -32,5 +34,22 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <script>
+    alert('test');
+            document.addEventListener('DOMContentLoaded', function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                            if (urlParams.toString() !== '') {
+                    document.querySelectorAll('a').forEach(function(link) {
+                        const currentUrl = new URL(link.href);
+                        urlParams.forEach((value, key) => {
+                            currentUrl.searchParams.set(key, value);
+                        });
+                        link.href = currentUrl.toString();
+                    });
+                }
+            });
+            </script>
+            
     </body>
 </html>

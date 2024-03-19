@@ -46,6 +46,10 @@ class User extends Authenticatable
 
     public function user_info(): HasOne
     {
-    return $this->hasOne(User_info::class);
+        return $this->hasOne(\App\Models\User_info::class, 'user_id');
     }
+    public function consents()
+        {
+            return $this->hasMany(\App\Models\Consent::class);
+        }
 }

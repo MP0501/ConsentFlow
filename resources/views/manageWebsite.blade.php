@@ -18,26 +18,13 @@
 
 <body id="page-top">
     <div id="wrapper">
-        <nav class="navbar align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 navbar-dark">
-            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
-                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-wave-square"></i></div>
-                    <div class="sidebar-brand-text mx-3"><span>ConsentFlow</span></div>
-                </a>
-                <hr class="sidebar-divider my-0">
-                <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="table.html"><i class="fas fa-cookie"></i><span>Cookie Scanner</span></a><a class="nav-link active" href="settings.html"><i class="fas fa-cog"></i><span>Einstellungen</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Lizenz</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html"><i class="far fa-user-circle"></i><span>Einloggen</span></a></li>
-                </ul>
-                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
-            </div>
-        </nav>
+        <x-navbar />
+
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 <nav class="navbar navbar-expand bg-white shadow mb-4 topbar static-top navbar-light">
                     <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
-                        <h3 class="text-dark mb-0">Einloggen</h3>
+                        <h3 class="text-dark mb-0">Websites verwalten</h3>
                         <ul class="navbar-nav flex-nowrap ms-auto">
                             <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
                                 <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
@@ -51,7 +38,7 @@
                             <div class="d-none d-sm-block topbar-divider"></div>
                             <li class="nav-item dropdown no-arrow">
                                 <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">Moritz</span><img class="border rounded-circle img-profile" src="assets/img/avatars/Screenshot%202024-02-15%20140714.png"></a>
-                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="profile.html"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profil</a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="lizenz.html"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profil</a>
                                         <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Ausloggen</a>
                                     </div>
                                 </div>
@@ -60,61 +47,76 @@
                     </div>
                 </nav>
                 <div class="container-fluid">
-                    <div class="row" style="margin-bottom: 20px;">
-                        <div class="col">
-                            <div class="card shadow">
+                    <div class="row">
+                        <div class="col-md-6 col-xl-3 col-xxl-4 mb-4" style="width: 492px;">
+                            <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <p class="text-primary m-0 fw-bold">Design Einstellungen</p>
+                                    <h6 class="text-primary fw-bold m-0">Website hinzufügen</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
-                                        <div class="col">
-                                            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                                                <div class="card-body p-4">
-                                                    <h4 class="card-title">Design 1</h4>
-                                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Auswählen</label></div>
-                                                </div>
-                                            </div>
+                                    <p>Der Cookie Scanner findet automatisiert alle Cookies die auf deiner Website verwendet werden.</p>
+                                    <form action="{{ route('add_consent') }}" method="POST">
+                                        @csrf
+                                        
+                                    <input class="border rounded form-control-user" type="website" id="exampleInputEmail-1" aria-describedby="emailHelp" placeholder="Website URL" name="url" style="margin-bottom: 16px;/*border-color: black!important;*/padding-left: 8px;width: 100%;">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
                                         </div>
-                                        <div class="col">
-                                            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                                                <div class="card-body p-4">
-                                                    <h4 class="card-title">Design 2</h4>
-                                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-3"><label class="form-check-label" for="formCheck-3">Auswählen</label></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                                                <div class="card-body p-4">
-                                                    <h4 class="card-title">Design 3</h4>
-                                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-2"><label class="form-check-label" for="formCheck-2">Auswählen</label></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endif
+                                    <div class="card text-white bg-primary border-0"></div><button class="btn btn-primary" type="submit">Website hinzufügen</button>
+                                    </form>
+                                    
+
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+
+        
+                        
                         <div class="col">
                             <div class="card shadow">
                                 <div class="card-header py-3">
-                                    <p class="text-primary m-0 fw-bold">Allgemeine Design Einstellungen</p>
+                                    <p class="text-primary m-0 fw-bold">Alle Websites</p>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                                    <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                                         <table class="table my-0" id="dataTable">
                                             <thead>
-                                                <tr></tr>
+                                                <tr>
+                                                    <th style="width: 364.203px;">Website URL</th>
+                                                    <th>Website auswählen</th>
+                                                    <th>Website entfernen</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach ($consents as $consent)
                                                 <tr>
-                                                    <td>Akzent Farbe</td>
-                                                    <td><input type="text" class="setting_input"></td>
-                                                    <td><input type="color"></td>
+                                                    <td>{{ $consent->website_url }}</td>
+                                                    <td>
+                                                        <!-- Implementiere die Logik oder den Button für das Auswählen der Website hier -->
+                                                        <form id="selectForm_{{ $consent->id }}" action="/setConsentId" method="GET">
+                                                            @csrf
+                                                            <input type="hidden" name="consentId" value="{{ $consent->id }}">
+                                                            <button type="submit" class="btn {{ session('ConsentId') == $consent->id ? 'btn-success' : 'btn-primary' }}">
+                                                                {{ session('ConsentId') == $consent->id ? 'Ausgewählt' : 'Auswählen' }}
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                    <td>
+                                                        <form action="{{ route('delete_website') }}" method="POST" onsubmit="return confirm('Sind Sie sicher?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" name="consentId" value="{{ $consent->id }}">
+                                                            <button class="btn btn-danger" type="submit">Entfernen</button>
+                                                        </form>
+                                                    </td>
                                                 </tr>
+                                                @endforeach
                                             </tbody>
                                             <tfoot>
                                                 <tr></tr>
@@ -124,9 +126,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                        
+
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
                     <div class="text-center my-auto copyright"><span>Copyright © ConsentFlow 2024 | Impressum | Datenschutzerklärung</span></div>
