@@ -17,9 +17,15 @@ class DashboardPageController extends Controller
         $Consent = $request->attributes->get('Consent');
         
         $consentViewsCount = $Consent->consentViews->count();
+        $user_info=$user->user_info()->first();
+        $first_name=$user_info->first_name;
+        $photo=$user_info->photo;
+        error_log($photo);
         return view('dashboard', [
             'first_name' => $user->user_info['vorname'],
-            'consentViewsCount' => $consentViewsCount
+            'consentViewsCount' => $consentViewsCount,
+            'photo'=>$photo,
+            'first_name'=>$first_name
         ]);
     }
 }

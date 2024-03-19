@@ -43,6 +43,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        //Userinfo Daten eintragen
         $userInfo = new User_info([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -50,7 +51,6 @@ class RegisteredUserController extends Controller
         ]);
         
         $user->user_info()->save($userInfo);
-
         
 
         event(new Registered($user));

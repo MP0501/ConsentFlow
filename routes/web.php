@@ -57,7 +57,8 @@ Route::post('/updateSettings', [LicenseController::class, 'updateSettings'])->na
 Route::post('/updateAdress', [LicenseController::class, 'updateAdress'])->name('updateAdress');
 Route::post('/updatePhoto', [LicenseController::class, 'updatePhoto'])->name('updatePhoto');
 
-Route::get('/components/navbar-top', [UserInfoController::class, 'showProfile'])->name('photo');
+Route::post('/updateDesign', [SettingsPageController::class, 'updateDesign'])->name('updateDesign');
+
 
 
 require __DIR__.'/auth.php';

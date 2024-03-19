@@ -19,7 +19,6 @@ class LicenseController extends Controller
         $city=$user_info->city;
         $country=$user_info->country;
         $photo=$user_info->photo;
-        error_log($photo);
         return view('license', [
             'email' => $email,
             'first_name' => $first_name,
