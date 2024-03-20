@@ -19,75 +19,71 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/> 
 <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
 
-</head>
-
-<body id="page-top">
-
- 
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            @foreach($settings as $key => $value)
-                @php
-                    $isColorValue = preg_match('/^#([0-9a-fA-F]{3}([0-9a-fA-F]{1})?|[0-9a-fA-F]{6}([0-9a-fA-F]{2})?)$/', $value);
-                @endphp
-        
-                @if ($isColorValue)
-                    const pickr_{{ Str::slug($key, '_') }} = Pickr.create({
-                        el: '#{{ $key }}_color_picker',
-                        theme: 'classic', 
-                        default: '{{ $value }}',
-                        components: {
-                            preview: true,
-                            opacity: true,
-                            hue: true,
-                    
-                            interaction: {
-                                hex: true,
-                                rgba: true,
-                                input: true,
-                                save: true
-                            }
-                        }
-                    }).on('save', (color, instance) => {
-                        document.getElementById('{{ $key }}').value = color.toHEXA().toString(0); 
-                        instance.hide(); 
-                    });
-                @endif
-            @endforeach
-        });
-        </script>
-        
-        
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        @foreach($settings as $key => $value)
+            @php
+                $isColorValue = preg_match('/^#([0-9a-fA-F]{3}([0-9a-fA-F]{1})?|[0-9a-fA-F]{6}([0-9a-fA-F]{2})?)$/', $value);
+            @endphp
     
+            @if ($isColorValue)
+                const pickr_{{ Str::slug($key, '_') }} = Pickr.create({
+                    el: '#{{ $key }}_color_picker',
+                    theme: 'classic', 
+                    default: '{{ $value }}',
+                    components: {
+                        preview: true,
+                        opacity: true,
+                        hue: true,
+                
+                        interaction: {
+                            hex: true,
+                            rgba: true,
+                            input: true,
+                            save: true
+                        }
+                    }
+                }).on('save', (color, instance) => {
+                    document.getElementById('{{ $key }}').value = color.toHEXA().toString(0); 
+                    instance.hide(); 
+                });
+            @endif
+        @endforeach
+    });
+    </script>
+    
+    
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    function isValidHex(input) {
-    var value = input.startsWith('#') ? input.slice(1) : input;
-    // Entferne das # aus dem regulären Ausdruck, da wir es bereits oben behandelt haben
-    var hexPattern = /^([0-9a-fA-F]{3}([0-9a-fA-F]{1})?|[0-9a-fA-F]{6}([0-9a-fA-F]{2})?)$/;
-    if (hexPattern.test(value)) {
-        return '#' + value.toUpperCase();
-    }
-    return false;
+function isValidHex(input) {
+var value = input.startsWith('#') ? input.slice(1) : input;
+// Entferne das # aus dem regulären Ausdruck, da wir es bereits oben behandelt haben
+var hexPattern = /^([0-9a-fA-F]{3}([0-9a-fA-F]{1})?|[0-9a-fA-F]{6}([0-9a-fA-F]{2})?)$/;
+if (hexPattern.test(value)) {
+    return '#' + value.toUpperCase();
+}
+return false;
 }
 
-    //Hex input zu color picker
-    document.querySelectorAll('input[type="text"]').forEach(function(textInput) {
-    textInput.addEventListener('input', function() {
-        var correctedHex = isValidHex(this.value);
-        if (correctedHex) {
-            var colorPicker = this.closest('td').nextElementSibling.querySelector('input[type="color"]');
-            if (colorPicker) {
-                colorPicker.value = correctedHex;
-                this.value = correctedHex; 
-            }
+//Hex input zu color picker
+document.querySelectorAll('input[type="text"]').forEach(function(textInput) {
+textInput.addEventListener('input', function() {
+    var correctedHex = isValidHex(this.value);
+    if (correctedHex) {
+        var colorPicker = this.closest('td').nextElementSibling.querySelector('input[type="color"]');
+        if (colorPicker) {
+            colorPicker.value = correctedHex;
+            this.value = correctedHex; 
         }
-    });
-    });
+    }
+});
+});
 });
 
 
@@ -98,22 +94,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
-<script>
+
+
+
+</head>
+
+
+
+ 
 
 
 
 
 
-</script>
-
-
-
-
-    
+<body id="page-top">
     <div id="wrapper">
         <x-navbar />
-        <form method="POST" action="{{route('updateSettings') }}">
-        @csrf 
+        
       
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
@@ -141,6 +138,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         </ul>
                     </div>
                 </nav>
+                <form method="POST" action="{{route('updateSettings') }}">
+                    @csrf 
                 <div class="container-fluid">
                     <div class="row" style="margin-bottom: 20px;">
                         <div class="col">
@@ -596,6 +595,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="col" style="text-align: left;"><button class="btn btn-primary" type="submit" style="width: 187px;">Speichern</button></div>
                     </div>
                 </div>
+            </form>
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
@@ -604,7 +604,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
 
-    </form>
+  
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
