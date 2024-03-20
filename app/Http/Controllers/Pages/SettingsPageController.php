@@ -51,6 +51,11 @@ class SettingsPageController extends Controller
         $user = $request->user();
         $consent_id=session()->get('ConsentId');
         $consent=$user->consents()->where('id', $consent_id)->first();
+        
+
+        
+
+
         $consentSetting=$consent->settings()->get();
         $keys = array_keys($this->defaultValues);
         $settings=[];
