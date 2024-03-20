@@ -98,70 +98,24 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach ($vendors as $vendor)
                                                 <tr>
-                                                    <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/1687766303003.jpg">Google Adsense</td>
-                                                    <td>Marketing</td>
-                                                    <td>???</td>
-                                                    <td>33</td>
-                                                    <td><button class="btn btn-primary" type="button">Bearbeiten</button></td>
-                                                    <td><button class="btn btn-primary" type="button">Entfernen</button></td>
+                                                    <td>{{ $vendor->name }}</td>
+                                                    <td>
+                                                        <button type="submit" class="btn btn-primary">
+                                                            Bearbeiten
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <form action="{{ route('delete_vendor') }}" method="POST" onsubmit="return confirm('Sind Sie sicher?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" name="consentId" value="{{ $vendor->id }}">
+                                                            <button class="btn btn-danger" type="submit">Entfernen</button>
+                                                        </form>
+                                                    </td>
                                                 </tr>
-                                                <tr>
-                                                    <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/1687766303003.jpg">Google Adsense</td>
-                                                    <td>Marketing</td>
-                                                    <td>???</td>
-                                                    <td>33</td>
-                                                    <td><button class="btn btn-primary" type="button">Bearbeiten</button></td>
-                                                    <td><button class="btn btn-primary" type="button">Entfernen</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/1687766303003.jpg">Google Adsense</td>
-                                                    <td>Marketing</td>
-                                                    <td>???</td>
-                                                    <td>33</td>
-                                                    <td><button class="btn btn-primary" type="button">Bearbeiten</button></td>
-                                                    <td><button class="btn btn-primary" type="button">Entfernen</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/1687766303003.jpg">Google Adsense</td>
-                                                    <td>Marketing</td>
-                                                    <td>???</td>
-                                                    <td>33</td>
-                                                    <td><button class="btn btn-primary" type="button">Bearbeiten</button></td>
-                                                    <td><button class="btn btn-primary" type="button">Entfernen</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/1687766303003.jpg">Google Adsense</td>
-                                                    <td>Marketing</td>
-                                                    <td>???</td>
-                                                    <td>33</td>
-                                                    <td><button class="btn btn-primary" type="button">Bearbeiten</button></td>
-                                                    <td><button class="btn btn-primary" type="button">Entfernen</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/1687766303003.jpg">Google Adsense</td>
-                                                    <td>Marketing</td>
-                                                    <td>???</td>
-                                                    <td>33</td>
-                                                    <td><button class="btn btn-primary" type="button">Bearbeiten</button></td>
-                                                    <td><button class="btn btn-primary" type="button">Entfernen</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/1687766303003.jpg">Google Adsense</td>
-                                                    <td>Marketing</td>
-                                                    <td>???</td>
-                                                    <td>33</td>
-                                                    <td><button class="btn btn-primary" type="button">Bearbeiten</button></td>
-                                                    <td><button class="btn btn-primary" type="button">Entfernen</button></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><img class="rounded-circle me-2" width="30" height="30" src="assets/img/1687766303003.jpg">Google Adsense</td>
-                                                    <td>Marketing</td>
-                                                    <td>???</td>
-                                                    <td>33</td>
-                                                    <td><button class="btn btn-primary" type="button">Bearbeiten</button></td>
-                                                    <td><button class="btn btn-primary" type="button">Entfernen</button></td>
-                                                </tr>
+                                                @endforeach
                                             </tbody>
                                             <tfoot>
                                                 <tr>

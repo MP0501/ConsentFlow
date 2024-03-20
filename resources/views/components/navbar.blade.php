@@ -19,6 +19,7 @@
             <li class="nav-item"><a class="nav-link {{ request()->is('settings') ? 'active' : '' }}" href="settings"><i class="fas fa-cog"></i><span>Einstellungen</span></a>
                 <a class="nav-link {{ request()->is('manageWebsite') ? 'active' : '' }}" href="manageWebsite"><i class="fas fa-sitemap"></i><span>Websites verwalten</span>
                 </a>
+                <a class="nav-link {{ request()->is('script') ? 'active' : '' }}" href="script"><i class="fas fa-file-code"></i><span>Skript erstellen</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('license') ? 'active' : '' }}" href="license"><i class="fas fa-user"></i><span>Lizenz</span>

@@ -8,9 +8,10 @@ use Illuminate\Routing\Controller;
 
 class ManageWebsiteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $consents = Consent::all(); 
+        $user = $request->user();
+        $consents=$user->consents()->get();
         return view('manageWebsite', ['consents' => $consents]); 
     }
     public function setConsentId(Request $request){

@@ -15,7 +15,7 @@ class Consent_vendors extends Model
 
     protected $fillable = ['name', 'script_to_implement', 'policy_url', 'consent_id'];
 
-    public function consent(): BelongsTo
+    public function consent():BelongsTo
     {
         return $this->belongsTo(Consent::class, "consent_id");
     }

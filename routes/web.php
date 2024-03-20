@@ -6,6 +6,7 @@ use App\Http\Controllers\Pages\CookieScannerController;
 use App\Http\Controllers\Pages\DashboardPageController;
 use App\Http\Controllers\Pages\LicenseController;
 use App\Http\Controllers\Pages\ManageWebsiteController;
+use App\Http\Controllers\Pages\ScriptPageController;
 use App\Http\Controllers\Pages\SettingsPageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
@@ -44,10 +45,14 @@ Route::get('/settings', [SettingsPageController::class, 'index'])->middleware('a
 Route::get('/manageWebsite', [ManageWebsiteController::class, 'index'])->name('manageWebsite')->middleware('auth');
 Route::get('/license', [LicenseController::class, 'index'])->middleware('auth',ConsentId::class)->name('license');
 Route::get('/cookieScanner', [CookieScannerController::class, 'index'])->middleware('auth',ConsentId::class)->name('cookieScanner');
+Route::get('/script', [ScriptPageController::class, 'index'])->middleware('auth',ConsentId::class)->name('script');
 
 
 Route::get('/setConsentId', [ManageWebsiteController::class,'setConsentId'])->middleware('auth');
 Route::get('/test', [UserInfoController::class, 'boot'])->middleware('auth');
+
+Route::post('/change_vendor', [ScriptPageController::class, 'change_vendor'])->name('change_vendor');
+Route::delete('/delete_vendor', [ScriptPageController::class, 'delete_vendor'])->name('delete_vendor');
 
 
 Route::delete('/delete_website', [ConsentController::class, 'delete_website'])->name('delete_website');
