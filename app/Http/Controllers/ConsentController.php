@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Rule;
 
+use function Laravel\Prompts\error;
+
 class ConsentController extends Controller
 {
     public function add_consent(Request $request)
@@ -83,7 +85,7 @@ class ConsentController extends Controller
                 'consent_id' => $consent->id
             ]);
         }*/
-
+        $request->session()->put('ConsentId', $consent->id);
 
     
         return redirect('/manageWebsite')->with('success', 'Website erfolgreich hinzugefügt!');

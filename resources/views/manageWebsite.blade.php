@@ -14,9 +14,54 @@
     <link rel="stylesheet" href="assets/css/nav_bar.css">
     <link rel="stylesheet" href="assets/css/Pricing-Duo-badges.css">
     <link rel="stylesheet" href="assets/css/Pricing-Duo-icons.css">
+
+    <!-- jQuery  -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 
 <body id="page-top">
+
+
+
+
+    <!-- Modal Popup-->
+<div class="modal fade" id="cookieEditModal" tabindex="-1" aria-labelledby="cookieEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cookieEditModalLabel">Website hinzufügen</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            Bitte wähle die Website aus, auf der dein Consent-Banner angezeigt werden soll. 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if(empty($consents->toArray()))
+  <script>
+        $('#cookieEditModal').modal('show');
+  </script>
+  @endif
+
+  
+  
+
+
+
+
+
+
+
     <div id="wrapper">
         <x-navbar />
 
@@ -54,7 +99,7 @@
                                     <h6 class="text-primary fw-bold m-0">Website hinzufügen</h6>
                                 </div>
                                 <div class="card-body">
-                                    <p>Der Cookie Scanner findet automatisiert alle Cookies die auf deiner Website verwendet werden.</p>
+                                    <p>Beginne mit ConsentFlow, indem du die URL deiner Website einträgst. Ohne eine registrierte Website kannst du die Funktionen unserer Consent Management Plattform nicht nutzen.</p>
                                     <form action="{{ route('add_consent') }}" method="POST">
                                         @csrf
                                         

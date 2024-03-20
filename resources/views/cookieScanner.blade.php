@@ -14,9 +14,155 @@
     <link rel="stylesheet" href="assets/css/nav_bar.css">
     <link rel="stylesheet" href="assets/css/Pricing-Duo-badges.css">
     <link rel="stylesheet" href="assets/css/Pricing-Duo-icons.css">
+
+
+
+
+<!-- jQuery  -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 
 <body id="page-top">
+
+<!-- Pop up Cookie manuell erstellen -->
+<div class="modal fade" id="cookieCreate" tabindex="-1" aria-labelledby="cookieCreate" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cookieCreate">Cookie erstellen</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <table id="dataTable" class="table my-0">
+                <thead>
+                    <tr></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width: 154.516px;">Cookie url</td>
+                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
+                            <div class="input-group"></div>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 154.516px;">Cookie Test</td>
+                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
+                            <div class="input-group"></div>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 154.516px;">Weitere Einstellungen</td>
+                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
+                            <div class="input-group"></div>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr></tr>
+                </tfoot>
+            </table>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-primary">Änderungen speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!-- Pop up Cookie bearbeiten -->
+<div class="modal fade" id="cookieEditModal" tabindex="-1" aria-labelledby="cookieEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cookieEditModalLabel">Cookie bearbeiten</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <table id="dataTable" class="table my-0">
+                <thead>
+                    <tr></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width: 154.516px;">Cookie url</td>
+                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
+                            <div class="input-group"></div>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 154.516px;">Cookie Test</td>
+                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
+                            <div class="input-group"></div>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 154.516px;">Weitere Einstellungen</td>
+                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
+                            <div class="input-group"></div>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr></tr>
+                </tfoot>
+            </table>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-primary">Änderungen speichern</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- Cookie Scanner-->
+  <div class="modal fade" id="cookieScannerModal" tabindex="-1" aria-labelledby="cookieScannerModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cookieEditModalLabel">Cookie Scanner</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            Cookie Scanner gestartet.
+            Sollen wir dann hier eine tabelle einabuen mit allen cookies??? und dann auf einfügen oder abrechen? 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
     <div id="wrapper">
         <x-navbar />
         <div class="d-flex flex-column" id="content-wrapper">
@@ -53,7 +199,7 @@
                                     <h6 class="text-primary fw-bold m-0">Cookie Scanner</h6>
                                 </div>
                                 <div class="card-body">
-                                    <p>Der Cookie Scanner findet automatisiert alle Cookies die auf deiner Website verwendet werden.</p><button class="btn btn-primary" type="button">Scanner starten</button>
+                                    <p>Der Cookie Scanner findet automatisiert alle Cookies die auf deiner Website verwendet werden.</p><button class="btn btn-primary" type="button" data-toggle="modal" data-target="#cookieScannerModal" >Scanner starten</button>
                                     <div class="card text-white bg-primary border-0"></div>
                                 </div>
                             </div>
@@ -62,7 +208,7 @@
                                     <h6 class="text-primary fw-bold m-0">Cookie manuell hinzufügen</h6>
                                 </div>
                                 <div class="card-body">
-                                    <p>Falls ein Cookie nicht automatisiert gefunden wurde, kannst du ihn hier hinzufügen.</p><button class="btn btn-primary" type="button">Cookie hinzufügen</button>
+                                    <p>Falls ein Cookie nicht automatisiert gefunden wurde, kannst du ihn hier hinzufügen.</p><button class="btn btn-primary" type="button" data-toggle="modal" data-target="#cookieCreate">Cookie hinzufügen</button>
                                 </div>
                             </div>
                         </div>
@@ -102,9 +248,10 @@
                                                 <tr>
                                                     <td>{{ $vendor->name }}</td>
                                                     <td>
-                                                        <button type="submit" class="btn btn-primary">
+                                                        <button type="button" name="edit_cookie" id="edit_cookie" class="btn btn-primary" data-toggle="modal" data-target="#cookieEditModal">
                                                             Bearbeiten
-                                                        </button>
+                                                          </button>
+                                                          
                                                     </td>
                                                     <td>
                                                         <form action="{{ route('delete_vendor') }}" method="POST" onsubmit="return confirm('Sind Sie sicher?');">
