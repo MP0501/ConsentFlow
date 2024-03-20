@@ -31,12 +31,13 @@ class DashboardPageController extends Controller
        
         $monthlyConsents = [];
         $consentViews=$Consent->consentViews();
+        $eightMonthsAgo = Carbon::now()->subMonths(8)->startOfMonth();
+        $today = Carbon::now()->endOfMonth();
         foreach (range(1, 12) as $month) {
             $monthlyConsents[$month] = $Consent->consentViews()
-                                                ->whereYear('created_at', date('Y'))
+                                                ->whereBetween('created_at', [$eightMonthsAgo, $today])
                                                 ->whereMonth('created_at', $month)
                                                 ->count()*0.01;
-            error_log($monthlyConsents[$month]);
         }
 
         

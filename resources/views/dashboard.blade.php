@@ -115,7 +115,26 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="chart-area"><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Sep&quot;,&quot;Okt&quot;,&quot;Nov&quot;,&quot;Dez&quot;,&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mär&quot;,&quot;Apr&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Kosten in Euro&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;{{$monthlyConsents[9]}}&quot;,&quot;{{$monthlyConsents[10]}}&quot;,&quot;{{$monthlyConsents[11]}}&quot;,&quot;{{$monthlyConsents[12]}}&quot;,&quot;{{$monthlyConsents[1]}}&quot;,&quot;{{$monthlyConsents[2]}}&quot;,&quot;{{$monthlyConsents[3]}}&quot;,&quot;{{$monthlyConsents[4]}}&quot;],&quot;backgroundColor&quot;:&quot;rgba(78, 115, 223, 0.05)&quot;,&quot;borderColor&quot;:&quot;rgba(78, 115, 223, 1)&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;padding&quot;:20}}]}}}"></canvas></div>
+                                    @php
+                                        $currentMonth = date('n');
+                                        $currentYear = date('Y');
+
+                                        $chartLabels = [];
+                                        $chartData = [];
+
+                                        for ($i = 0; $i < 8; $i++) {
+                                            $month = ($currentMonth - $i) > 0 ? $currentMonth - $i : 12 + ($currentMonth - $i);
+                                            $year = ($currentMonth - $i) > 0 ? $currentYear : $currentYear - 1;
+
+                                            $date = DateTime::createFromFormat('!m', $month);
+                                            $chartLabels[] = $date->format('M');
+
+                                            $chartData[] = isset($monthlyConsents[$month]) ? $monthlyConsents[$month] : 0;
+                                        }
+                                        $chartLabels = array_reverse($chartLabels);
+                                        $chartData = array_reverse($chartData);
+                                    @endphp
+                                    <div class="chart-area"><canvas data-bss-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;{{$chartLabels[0]}}&quot;,&quot;{{$chartLabels[1]}}&quot;,&quot;{{$chartLabels[2]}}&quot;,&quot;{{$chartLabels[3]}}&quot;,&quot;{{$chartLabels[4]}}&quot;,&quot;{{$chartLabels[5]}}&quot;,&quot;{{$chartLabels[6]}}&quot;,&quot;{{$chartLabels[7]}}&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Kosten in Euro&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;{{$chartData[0]}}&quot;,&quot;{{$chartData[1]}}&quot;,&quot;{{$chartData[2]}}&quot;,&quot;{{$chartData[3]}}&quot;,&quot;{{$chartData[4]}}&quot;,&quot;{{$chartData[5]}}&quot;,&quot;{{$chartData[6]}}&quot;,&quot;{{$chartData[7]}}&quot;],&quot;backgroundColor&quot;:&quot;rgba(78, 115, 223, 0.05)&quot;,&quot;borderColor&quot;:&quot;rgba(78, 115, 223, 1)&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;fontStyle&quot;:&quot;normal&quot;,&quot;padding&quot;:20}}]}}}"></canvas></div>
                                 </div>
                             </div>
                         </div>
