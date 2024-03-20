@@ -113,18 +113,13 @@ document.addEventListener('DOMContentLoaded', function() {
     <div id="wrapper">
         <x-navbar />
         <form method="POST" action="{{route('updateSettings') }}">
-            @csrf 
-            <input class="form-check-input" type="radio" id="design-1"  name="design_choice" value="1" {{ $settings['design_choice'] == 1 ? 'checked' : '' }}><label class="form-check-label" for="design-1" >Auswählen</label>
-            <input class="form-check-input" type="radio" id="design-2" name="design_choice" value="2" {{ $settings['design_choice'] == 2 ? 'checked' : '' }}><label class="form-check-label" for="design-2">Auswählen</label>
-            <input class="form-check-input" type="radio" id="design-3" name="design_choice" value="3" {{ $settings['design_choice'] == 3 ? 'checked' : '' }}><label class="form-check-label" for="design-3">Auswählen</label>
-            
-        
-
+        @csrf 
+      
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 <nav class="navbar navbar-expand bg-white shadow mb-4 topbar static-top navbar-light">
                     <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
-                        <h3 class="text-dark mb-0">Login</h3>
+                        <h3 class="text-dark mb-0">Einstellungen</h3>
                         <ul class="navbar-nav flex-nowrap ms-auto">
                             <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
                                 <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
@@ -156,28 +151,34 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <div class="card-body">
                                     <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
                                         <div class="col">
-                                            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                                                <div class="card-body p-4">
-                                                    <h4 class="card-title">Design 1</h4>
-                                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Auswählen</label></div>
+                                            <label>
+                                                <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                    <div class="card-body p-4">
+                                                        <h4 class="card-title">Design 1</h4>
+                                                        <div class="form-check"><input class="form-check-input" type="radio" id="design-1"  name="design_choice" value="1" {{ $settings['design_choice'] == 1 ? 'checked' : '' }}>Auswählen</div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </label>
                                         </div>
                                         <div class="col">
-                                            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                                                <div class="card-body p-4">
-                                                    <h4 class="card-title">Design 2</h4>
-                                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-3"><label class="form-check-label" for="formCheck-3">Auswählen</label></div>
+                                            <label>
+                                                <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                    <div class="card-body p-4">
+                                                        <h4 class="card-title">Design 2</h4>
+                                                        <div class="form-check"> <input class="form-check-input" type="radio" id="design-2" name="design_choice" value="2" {{ $settings['design_choice'] == 2 ? 'checked' : '' }}>Auswählen</div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </label>
                                         </div>
                                         <div class="col">
-                                            <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                                                <div class="card-body p-4">
-                                                    <h4 class="card-title">Design 3</h4>
-                                                    <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-2"><label class="form-check-label" for="formCheck-2">Auswählen</label></div>
+                                            <label>
+                                                <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                    <div class="card-body p-4">
+                                                        <h4 class="card-title">Design 3</h4>
+                                                        <div class="form-check"><input class="form-check-input" type="radio" id="design-3" name="design_choice" value="3" {{ $settings['design_choice'] == 3 ? 'checked' : '' }}>Auswählen</div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>

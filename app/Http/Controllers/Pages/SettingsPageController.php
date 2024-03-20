@@ -78,16 +78,17 @@ class SettingsPageController extends Controller
         $keys = array_keys($this->defaultValues);
         foreach ($keys as $key) {
             $value = $request->input($key);
-            error_log($key);
-            error_log($value);
+            error_log($request->input('design_choice'));
+
             if ($value != $this->defaultValues[$key]) {
-                error_log($key);
-                error_log($value);
                 // Aktualisierung der Einstellung
                 $consentSetting = $consent->settings()->updateOrCreate(
                     ['key' => $key],
                     ['value' => $value]
                 );
+            }
+            else{
+                $consent->settings()->where('key', $key)->delete();
             }
         }
         
