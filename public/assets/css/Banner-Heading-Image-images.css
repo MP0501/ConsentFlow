@@ -5,7 +5,12 @@
 .setting_input {
   border-radius: 15px;
   border-width: 4px;
-  background-color: #e0e0e0;
+  background-color: #ebebeb;
   border-color: #e0e0e0;
+}
+
+.input_design {
+  border-width: 2px!important;
+  width: 240px;
 }
 

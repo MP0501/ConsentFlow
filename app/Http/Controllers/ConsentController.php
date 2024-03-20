@@ -38,7 +38,7 @@ class ConsentController extends Controller
             'website_url' => $request->input('url'),
             'user_id' => $user->id,
         ]);
-
+/*
         //Demowerte eintragen
         $demoValues = [
             // General Design Settings
@@ -82,7 +82,7 @@ class ConsentController extends Controller
                 'value' => $demoValue['value'],
                 'consent_id' => $consent->id
             ]);
-        }
+        }*/
 
 
     

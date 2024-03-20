@@ -57,7 +57,7 @@ Route::post('/updateSettings', [LicenseController::class, 'updateSettings'])->na
 Route::post('/updateAdress', [LicenseController::class, 'updateAdress'])->name('updateAdress');
 Route::post('/updatePhoto', [LicenseController::class, 'updatePhoto'])->name('updatePhoto');
 
-Route::post('/updateDesign', [SettingsPageController::class, 'updateDesign'])->name('updateDesign');
+Route::post('/updateSettings', [SettingsPageController::class, 'updateSettings'])->name('updateSettings');
 
 
 

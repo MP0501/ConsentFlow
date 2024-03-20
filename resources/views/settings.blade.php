@@ -14,22 +14,112 @@
     <link rel="stylesheet" href="/assets/css/nav_bar.css">
     <link rel="stylesheet" href="/assets/css/Pricing-Duo-badges.css">
     <link rel="stylesheet" href="/assets/css/Pricing-Duo-icons.css">
+
+    <!-- Color Pickr -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"/> 
+<script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+
 </head>
 
 <body id="page-top">
+
+ 
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            @foreach($settings as $key => $value)
+                @php
+                    $isColorValue = preg_match('/^#([0-9a-fA-F]{3}([0-9a-fA-F]{1})?|[0-9a-fA-F]{6}([0-9a-fA-F]{2})?)$/', $value);
+                @endphp
+        
+                @if ($isColorValue)
+                    const pickr_{{ Str::slug($key, '_') }} = Pickr.create({
+                        el: '#{{ $key }}_color_picker',
+                        theme: 'classic', 
+                        default: '{{ $value }}',
+                        components: {
+                            preview: true,
+                            opacity: true,
+                            hue: true,
+                    
+                            interaction: {
+                                hex: true,
+                                rgba: true,
+                                input: true,
+                                save: true
+                            }
+                        }
+                    }).on('save', (color, instance) => {
+                        document.getElementById('{{ $key }}').value = color.toHEXA().toString(0); 
+                        instance.hide(); 
+                    });
+                @endif
+            @endforeach
+        });
+        </script>
+        
+        
     
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    function isValidHex(input) {
+    var value = input.startsWith('#') ? input.slice(1) : input;
+    // Entferne das # aus dem regulären Ausdruck, da wir es bereits oben behandelt haben
+    var hexPattern = /^([0-9a-fA-F]{3}([0-9a-fA-F]{1})?|[0-9a-fA-F]{6}([0-9a-fA-F]{2})?)$/;
+    if (hexPattern.test(value)) {
+        return '#' + value.toUpperCase();
+    }
+    return false;
+}
+
+    //Hex input zu color picker
+    document.querySelectorAll('input[type="text"]').forEach(function(textInput) {
+    textInput.addEventListener('input', function() {
+        var correctedHex = isValidHex(this.value);
+        if (correctedHex) {
+            var colorPicker = this.closest('td').nextElementSibling.querySelector('input[type="color"]');
+            if (colorPicker) {
+                colorPicker.value = correctedHex;
+                this.value = correctedHex; 
+            }
+        }
+    });
+    });
+});
+
+
+
+
+
+
+
+</script>
+
+<script>
+
+
+
+
+
+</script>
+
+
+
+
     
     <div id="wrapper">
         <x-navbar />
-        <form method="POST" action="{{ route('updateDesign') }}">
+        <form method="POST" action="{{route('updateSettings') }}">
             @csrf 
-            <input class="form-check-input" type="radio" id="formCheck-1"  name="designChoice" value="1"><label class="form-check-label" for="formCheck-1">Auswählen</label>
-            <input class="form-check-input" type="radio" id="formCheck-2" name="designChoice" value="2"><label class="form-check-label" for="formCheck-2">Auswählen</label>
-            <input class="form-check-input" type="radio" id="formCheck-3" name="designChoice" value="3"><label class="form-check-label" for="formCheck-3">Auswählen</label>
+            <input class="form-check-input" type="radio" id="design-1"  name="design_choice" value="1" {{ $settings['design_choice'] == 1 ? 'checked' : '' }}><label class="form-check-label" for="design-1" >Auswählen</label>
+            <input class="form-check-input" type="radio" id="design-2" name="design_choice" value="2" {{ $settings['design_choice'] == 2 ? 'checked' : '' }}><label class="form-check-label" for="design-2">Auswählen</label>
+            <input class="form-check-input" type="radio" id="design-3" name="design_choice" value="3" {{ $settings['design_choice'] == 3 ? 'checked' : '' }}><label class="form-check-label" for="design-3">Auswählen</label>
+            
+        
 
-            <button type="submit" class="btn btn-primary">Speichern</button>
-
-        </form>
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 <nav class="navbar navbar-expand bg-white shadow mb-4 topbar static-top navbar-light">
@@ -96,7 +186,7 @@
                     </div>
                     <div class="row" style="margin-bottom: 20px;">
                         <div class="col">
-                            <div class="card shadow">
+                            <div class="card shadow" style="margin-bottom: 20px;">
                                 <div class="card-header py-3">
                                     <p class="text-primary m-0 fw-bold">Allgemeine Design Einstellungen</p>
                                 </div>
@@ -108,25 +198,124 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Akzent Farbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Höhe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=banner_max_height id=banner_max_height value="{{ $settings['banner_max_height'] }}">
                                                     </td>
-                                                    <td><input type="color"></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Breite</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=banner_width id=banner_width value="{{ $settings['banner_width'] }}">
+                                                    </td>
+                                                    <td></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Hintergrundfarbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="banner_background" name="banner_background" value="{{ $settings['banner_background'] }}" readonly>
+
                                                     </td>
-                                                    <td><input type="color"></td>
+                                                    <td>
+                                                        <div id="banner_background_color_picker"></div>
+
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Überschrift Farbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Bannerumrandung</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="banner_border_radius" name="banner_border_radius" value="{{ $settings['banner_border_radius'] }}">
                                                     </td>
-                                                    <td><input type="color"></td>
+                                                    <td>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr></tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow" style="margin-bottom: 20px;">
+                                <div class="card-header py-3">
+                                    <p class="text-primary m-0 fw-bold">Überschrift Einstellungen</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table my-0" id="dataTable">
+                                            <thead>
+                                                <tr></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Überschrift Text</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=headline_text id=headline_text value="{{ $settings['headline_text'] }}">
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Überschriftgröße</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=headline_size id=headline_size value="{{ $settings['headline_size'] }}">
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Überschriftfarbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="headline_color" name="headline_color" value="{{ $settings['headline_color'] }}" readonly>
+
+                                                    </td>
+                                                    <td>
+                                                        <div id="headline_color_color_picker"></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr></tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow">
+                                <div class="card-header py-3">
+                                    <p class="text-primary m-0 fw-bold">Text Einstellungen</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable-4" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table my-0" id="dataTable">
+                                            <thead>
+                                                <tr></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Text</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=paragraph_text id=paragraph_text value="{{ $settings['paragraph_text'] }}">
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Textgröße</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=paragraph_size  id=paragraph_size  value="{{ $settings['paragraph_size'] }}">
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Textfarbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="paragraph_color" name="paragraph_color" value="{{ $settings['paragraph_color'] }}" readonly>
+
+                                                    </td>
+                                                    <td>
+                                                        <div id="paragraph_color_color_picker"></div>
+
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                             <tfoot>
@@ -140,9 +329,9 @@
                     </div>
                     <div class="row" style="margin-bottom: 20px;">
                         <div class="col">
-                            <div class="card shadow">
+                            <div class="card shadow" style="margin-bottom: 20px;">
                                 <div class="card-header py-3">
-                                    <p class="text-primary m-0 fw-bold">Detaileinstellungen</p>
+                                    <p class="text-primary m-0 fw-bold">Akzeptierbutton Einstellungen</p>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive table mt-2" id="dataTable-2" role="grid" aria-describedby="dataTable_info">
@@ -152,144 +341,204 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Hintergrundfarbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
-                                                    </td>
-                                                    <td><input type="color"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Überschrift Farbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
-                                                    </td>
-                                                    <td><input type="color"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Button 1 Farbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
-                                                    </td>
-                                                    <td><input type="color"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Button 1 Textfarbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
-                                                    </td>
-                                                    <td><input type="color"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Button 1 Text</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Akzeptierbutton&nbsp; Text&nbsp; &nbsp;</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=accept_text id=accept_text value="{{ $settings['accept_text'] }}">
                                                     </td>
                                                     <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Button 1 Abrundung</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Akzeptierbutton<br> Textfarbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="accept_color" name="accept_color" value="{{ $settings['accept_color'] }}" readonly>
+
+                                                    </td>
+                                                    <td>
+                                                        <div id="accept_color_color_picker"></div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Akzeptierbutton<br> Randfarbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="accept_border_color" name="accept_border_color" value="{{ $settings['accept_border_color'] }}" readonly>
+
+                                                    </td>
+                                                    <td>
+                                                        <div id="accept_border_color_color_picker"></div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Akzeptierbutton<br> Randstärke</td>
+                                                    <<td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=accept_border_width id=accept_border_width value="{{ $settings['accept_border_width'] }}">
                                                     </td>
                                                     <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Button 1 Randstärke</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
-                                                    </td>
-                                                    <td><input type="color"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Button 1 Randfarbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
-                                                    </td>
-                                                    <td><input type="color"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Button 2 Farbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
-                                                    </td>
-                                                    <td><input type="color"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Button 2 Textfarbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
-                                                    </td>
-                                                    <td><input type="color"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Button 2 Text</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Akzeptierbutton<br> Umrandung</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=accept_border_radius id=accept_border_radius value="{{ $settings['accept_border_radius'] }}">
                                                     </td>
                                                     <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Button 2 Abrundung</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Akzeptierbutton&nbsp; Hintergrund Farbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="accept_background_color" name="accept_background_color" value="{{ $settings['accept_background_color'] }}" readonly>
+
+                                                    </td>
+                                                    <td>
+                                                        <div id="accept_background_color_color_picker"></div>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr></tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow" style="margin-bottom: 20px;">
+                                <div class="card-header py-3">
+                                    <p class="text-primary m-0 fw-bold">Ablehnbutton Einstellungen</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable-5" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table my-0" id="dataTable">
+                                            <thead>
+                                                <tr></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Ablehnbutton Text&nbsp; &nbsp;</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=reject_text id=reject_text value="{{ $settings['reject_text'] }}">
                                                     </td>
                                                     <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Button 2 Randstärke</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Ablehnbutton<br> Textfarbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="reject_color" name="reject_color" value="{{ $settings['reject_color'] }}" readonly>
+
                                                     </td>
-                                                    <td><input type="color"></td>
+                                                    <td>
+                                                        <div id="reject_color_color_picker"></div>
+
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Button 2 Randfarbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Ablehnbutton Randfarbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="reject_border_color" name="reject_border_color" value="{{ $settings['reject_border_color'] }}" readonly>
+
                                                     </td>
-                                                    <td><input type="color"></td>
+                                                    <td>
+                                                        <div id="reject_border_color_color_picker"></div>
+
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Button 3 Farbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
-                                                    </td>
-                                                    <td><input type="color"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Button 3 Textfarbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
-                                                    </td>
-                                                    <td><input type="color"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Button 3 Text</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Ablehnbutton<br> Randstärke</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=reject_border_width id=reject_border_width value="{{ $settings['reject_border_width'] }}">
                                                     </td>
                                                     <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Button 3 Abrundung</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Ablehnbutton Umrandung</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=reject_border_radius id=reject_border_radius value="{{ $settings['reject_border_radius'] }}">
                                                     </td>
                                                     <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Button 3 Randstärke</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Ablehnbutton Hintergrund Farbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="reject_background_color" name="reject_background_color" value="{{ $settings['reject_background_color'] }}" readonly>
+
                                                     </td>
-                                                    <td><input type="color"></td>
+                                                    <td>
+                                                        <div id="reject_background_color_color_picker"></div>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr></tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow" style="margin-bottom: 20px;">
+                                <div class="card-header py-3">
+                                    <p class="text-primary m-0 fw-bold">Einstellbutton Einstellungen</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable-6" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table my-0" id="dataTable">
+                                            <thead>
+                                                <tr></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Einstellbutton Text&nbsp; &nbsp;</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=settings_text id=settings_text value="{{ $settings['settings_text'] }}">
+                                                    </td>
+                                                    <td></td>
                                                 </tr>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Button 3 Randfarbe</td>
-                                                    <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;">
-                                                        <div class="input-group"></div>
+                                                    <td style="width: 154.516px;">Einstellbutton<br> Textfarbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="settings_color" name="settings_color" value="{{ $settings['settings_color'] }}" readonly>
+
                                                     </td>
-                                                    <td><input type="color"></td>
+                                                    <td>
+                                                        <div id="settings_color_color_picker"></div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Einstellbutton Randfarbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="settings_border_color" name="settings_border_color" value="{{ $settings['settings_border_color'] }}" readonly>
+
+                                                    </td>
+                                                    <td>
+                                                        <div id="settings_border_color_color_picker"></div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Einstellbutton<br> Randstärke</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=settings_border_width id=settings_border_width value="{{ $settings['settings_border_width'] }}">
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Einstellbutton Umrandung</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=settings_border_radius id=settings_border_radius value="{{ $settings['settings_border_radius'] }}">
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Einstellbutton Hintergrund Farbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="settings_background_color" name="settings_background_color" value="{{ $settings['settings_background_color'] }}" readonly>
+
+                                                    </td>
+                                                    <td>
+                                                        <div id="settings_background_color_color_picker"></div>
+
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                             <tfoot>
@@ -301,6 +550,50 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col">
+                            <div class="card shadow" style="margin-bottom: 20px;">
+                                <div class="card-header py-3">
+                                    <p class="text-primary m-0 fw-bold">Link Einstellungen</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable-7" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table my-0" id="dataTable">
+                                            <thead>
+                                                <tr></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Link Farbe</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input  class="border rounded input_design" type="text" id="link_color" name="link_color" value="{{ $settings['link_color'] }}" readonly>
+
+                                                    </td>
+                                                    <td>
+                                                        <div id="link_color_color_picker"></div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Lint Textgröße</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=link_font_size id=link_font_size value="{{ $settings['link_font_size'] }}">
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr></tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col" style="text-align: left;"><button class="btn btn-primary" type="submit" style="width: 187px;">Speichern</button></div>
+                    </div>
                 </div>
             </div>
             <footer class="bg-white sticky-footer">
@@ -309,6 +602,8 @@
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+
+    </form>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
