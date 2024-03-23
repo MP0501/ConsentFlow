@@ -49,6 +49,10 @@ class SettingsPageController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+        $user_info=$user->user_info()->first();
+        $first_name=$user_info->first_name;
+        $photo=$user_info->photo;
+
         $consent_id=session()->get('ConsentId');
         $consent=$user->consents()->where('id', $consent_id)->first();
         
@@ -70,7 +74,9 @@ class SettingsPageController extends Controller
         }
         
         return view('settings', [
-            'settings' => $settings
+            'settings' => $settings,
+            'first_name'=>$first_name,
+            'photo' => $photo,
         ]); 
     }
 
