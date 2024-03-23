@@ -56,7 +56,7 @@ class SettingsPageController extends Controller
         $consent_id=session()->get('ConsentId');
         $consent=$user->consents()->where('id', $consent_id)->first();
         
-
+        
         
 
 
@@ -82,6 +82,30 @@ class SettingsPageController extends Controller
 
     public function updateSettings(Request $request)
     {
+
+        $request->validate([
+            'design_choice' => 'required|integer|between:1,3', 
+            'banner_max_height' => 'required|numeric|min:100|max:1000',
+            'banner_width' => 'required|numeric|min:100|max:2000', 
+            'banner_border_radius' => 'required|numeric|min:0|max:50', 
+            'headline_text' => 'required|string|max:100', 
+            'headline_size' => 'required|numeric|min:10|max:50', 
+            'paragraph_text' => 'required|string|max:500', 
+            'paragraph_size' => 'required|numeric|min:8|max:24', 
+            'accept_text' => 'required|string|max:20',
+            'accept_border_width' => 'required|numeric|min:1|max:5', 
+            'accept_border_radius' => 'required|numeric|min:0|max:50',
+            'reject_text' => 'required|string|max:20',
+            'reject_border_width' => 'required|numeric|min:1|max:5',
+            'reject_border_radius' => 'required|numeric|min:0|max:50', 
+            'settings_text' => 'required|string|max:20', 
+            'settings_border_width' => 'required|numeric|min:1|max:5', 
+            'settings_border_radius' => 'required|numeric|min:0|max:50', 
+            'link_font_size' => 'required|numeric|min:4|max:24', 
+        ]);
+
+
+
         $consentId = session()->get('ConsentId');
         $user = $request->user();
         $consent=$user->consents()->where('id', $consentId)->first();
