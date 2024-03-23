@@ -4,6 +4,9 @@ use App\Http\Controllers\ConsentController;
 use App\Http\Controllers\ConsentViewController;
 use App\Http\Controllers\Pages\CookieScannerController;
 use App\Http\Controllers\Pages\DashboardPageController;
+use App\Http\Controllers\Pages\DatenschutzerklaerungController;
+use App\Http\Controllers\Pages\ImpressumController;
+use App\Http\Controllers\Pages\IndexController;
 use App\Http\Controllers\Pages\LicenseController;
 use App\Http\Controllers\Pages\ManageWebsiteController;
 use App\Http\Controllers\Pages\ScriptPageController;
@@ -46,6 +49,10 @@ Route::get('/manageWebsite', [ManageWebsiteController::class, 'index'])->name('m
 Route::get('/license', [LicenseController::class, 'index'])->middleware('auth',ConsentId::class)->name('license');
 Route::get('/cookieScanner', [CookieScannerController::class, 'index'])->middleware('auth',ConsentId::class)->name('cookieScanner');
 Route::get('/script', [ScriptPageController::class, 'index'])->middleware('auth',ConsentId::class)->name('script');
+
+Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/datenschutzerklärung', [DatenschutzerklaerungController::class, 'index'])->name('datenschutzerklärung');
+Route::get('/impressum', [ImpressumController::class, 'index'])->name('impressum');
 
 
 Route::get('/setConsentId', [ManageWebsiteController::class,'setConsentId'])->middleware('auth');
