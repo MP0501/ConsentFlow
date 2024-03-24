@@ -144,7 +144,7 @@
                                                 <tr>
                                                     <td>{{ $consent->website_url }}</td>
                                                     <td>
-                                                        <!-- Implementiere die Logik oder den Button für das Auswählen der Website hier -->
+                                        
                                                         <form id="selectForm_{{ $consent->id }}" action="/setConsentId" method="GET">
                                                             @csrf
                                                             <input type="hidden" name="consentId" value="{{ $consent->id }}">

@@ -58,8 +58,8 @@ Route::get('/impressum', [ImpressumController::class, 'index'])->name('impressum
 Route::get('/setConsentId', [ManageWebsiteController::class,'setConsentId'])->middleware('auth');
 Route::get('/test', [UserInfoController::class, 'boot'])->middleware('auth');
 
-Route::post('/change_vendor', [ScriptPageController::class, 'change_vendor'])->name('change_vendor');
-Route::delete('/delete_vendor', [ScriptPageController::class, 'delete_vendor'])->name('delete_vendor');
+Route::post('/change_vendor', [CookieScannerController::class, 'change_vendor'])->name('change_vendor');
+Route::delete('/delete_vendor', [CookieScannerController::class, 'delete_vendor'])->name('delete_vendor');
 
 
 Route::delete('/delete_website', [ConsentController::class, 'delete_website'])->name('delete_website');
@@ -70,6 +70,8 @@ Route::post('/updateAdress', [LicenseController::class, 'updateAdress'])->name('
 Route::post('/updatePhoto', [LicenseController::class, 'updatePhoto'])->name('updatePhoto');
 
 Route::post('/updateSettings', [SettingsPageController::class, 'updateSettings'])->name('updateSettings');
+
+Route::post('/addConsentVendor', [CookieScannerController::class, 'addConsentVendor'])->name('addConsentVendor');
 
 
 

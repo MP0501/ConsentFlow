@@ -10,9 +10,12 @@ class Vendor_purposes extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+
     protected $table = "vendor_purposes";
 
-    protected $fillable = ['is_legitimate', 'consent_vendor_id'];
+    protected $fillable = ['is_legitimate', 'consent_vendor_id','purpose_id'];
 
     public function consentVendor():BelongsTo
     {

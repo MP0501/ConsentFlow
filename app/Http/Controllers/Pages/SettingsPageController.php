@@ -85,7 +85,7 @@ class SettingsPageController extends Controller
 
         $request->validate([
             'design_choice' => 'required|integer|between:1,3', 
-            'banner_max_height' => 'required|numeric|min:100|max:1000',
+            'banner_max_height' => 'required|numeric|min:10|max:100',
             'banner_width' => 'required|numeric|min:100|max:2000', 
             'banner_border_radius' => 'required|numeric|min:0|max:50', 
             'headline_text' => 'required|string|max:100', 

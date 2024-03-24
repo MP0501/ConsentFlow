@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('vendor_purposes', function (Blueprint $table) {
             $table->id(); 
             $table->boolean('is_legitimate'); 
+            $table->integer('purpose_id'); 
             $table->integer('consent_vendor_id');
             $table->foreign('consent_vendor_id')->references('id')->on('consent_vendors')->onDelete('cascade');
         });

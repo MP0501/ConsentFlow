@@ -43,27 +43,47 @@
                     <tr></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="width: 154.516px;">Cookie url</td>
-                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
-                            <div class="input-group"></div>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 154.516px;">Cookie Test</td>
-                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
-                            <div class="input-group"></div>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 154.516px;">Weitere Einstellungen</td>
-                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
-                            <div class="input-group"></div>
-                        </td>
-                        <td></td>
-                    </tr>
+                    <form method="POST" action="{{ route('addConsentVendor') }}">
+                        @csrf
+                        <tr>
+                            <td style="width: 154.516px;">Vendor Name</td>
+                            <td style="width: 258.641px;">
+                                <input class="border rounded" type="text" name="vendor_name" style="border-width: 2px!important;width: 240px;" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 154.516px;">Zweck</td>
+                            <td style="width: 258.641px;">
+                                <select class="form-control border rounded" name="purpose" style="width: 240px;" required>
+                                    <option value="" selected>Bitte auswählen</option>
+                                    <option value="1">Information speichern/abrufen</option>
+                                    <option value="2">Begrenzte Daten für Werbung</option>
+                                    <option value="3">Profile für personalisierte Werbung erstellen</option>
+                                    <option value="4">Profile für Werbung verwenden</option>
+                                    <option value="5">Profile zur Personalisierung von Inhalten erstellen</option>
+                                    <option value="6">Personalisierte Inhalte auswählen</option>
+                                    <option value="7">Werbungsleistung messen</option>
+                                    <option value="8">Inhaltsleistung messen</option>
+                                    <option value="9">Publikum verstehen durch Datenanalyse</option>
+                                    <option value="10">Dienste entwickeln und verbessern</option>
+                                    <option value="11">Begrenzte Daten zur Inhaltsauswahl verwenden</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 154.516px;">Vendor Skript</td>
+                            <td style="width: 258.641px;">
+                                <input class="border rounded" type="text" name="vendor_script" style="border-width: 2px!important;width: 240px;" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 154.516px;">PolicyUrl</td>
+                            <td style="width: 258.641px;">
+                                <input class="border rounded" type="text" name="policy_url" style="border-width: 2px!important;width: 240px;" required />
+                            </td>
+                        </tr>
+            
+                    
                 </tbody>
                 <tfoot>
                     <tr></tr>
@@ -73,64 +93,62 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
-          <button type="button" class="btn btn-primary">Änderungen speichern</button>
+          <button type="submit" class="btn btn-primary">Änderungen speichern</button></form>
         </div>
       </div>
     </div>
   </div>
+
+
+  <script>
+    function openEditModal(vendorId, vendorName, vendorPurpose, vendorPolicyURL) {
+        document.getElementById('vendor_id').value = vendorId;
+        document.getElementById('vendor_name').value = vendorName;
+        document.getElementById('vendor_purpose').value = vendorPurpose;
+        document.getElementById('vendor_policyURL').value = vendorPolicyURL;
+        $('#cookieEditModal').modal('show');
+    }
+</script>
+
 
 
 <!-- Pop up Cookie bearbeiten -->
 <div class="modal fade" id="cookieEditModal" tabindex="-1" aria-labelledby="cookieEditModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="cookieEditModalLabel">Cookie bearbeiten</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cookieEditModalLabel">Vendor bearbeiten</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('change_vendor') }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="vendor_id" id="vendor_id">
+                    <div class="form-group">
+                        <label for="vendor_name">Vendor Name</label>
+                        <input type="text" class="form-control" id="vendor_name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="vendor_purpose">Zweck</label>
+                        <input type="text" class="form-control" id="vendor_purpose" name="script_to_implement">
+                    </div>
+                    <div class="form-group">
+                        <label for="vendor_policyURL">policyURL</label>
+                        <input type="text" class="form-control" id="vendor_policyURL" name="policy_url">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Änderungen speichern</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+            </div>
         </div>
-        <div class="modal-body">
-            <table id="dataTable" class="table my-0">
-                <thead>
-                    <tr></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="width: 154.516px;">Cookie url</td>
-                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
-                            <div class="input-group"></div>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 154.516px;">Cookie Test</td>
-                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
-                            <div class="input-group"></div>
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 154.516px;">Weitere Einstellungen</td>
-                        <td style="width: 258.641px;"><input class="border rounded" type="text" style="border-width: 2px!important;width: 240px;" />
-                            <div class="input-group"></div>
-                        </td>
-                        <td></td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr></tr>
-                </tfoot>
-            </table>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
-          <button type="button" class="btn btn-primary">Änderungen speichern</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+
 
   
   <!-- Cookie Scanner-->
@@ -220,79 +238,63 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-6 text-nowrap">
-                                            <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Zeige&nbsp;<select class="d-inline-block form-select form-select-sm">
-                                                        <option value="10" selected="">10</option>
-                                                        <option value="25">25</option>
-                                                        <option value="50">50</option>
-                                                        <option value="100">100</option>
-                                                    </select>&nbsp;</label></div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Cookie Suchen"></label></div>
-                                        </div>
+                                    
+                                        
                                     </div>
                                     <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                                         <table class="table my-0" id="dataTable">
                                             <thead>
                                                 <tr>
-                                                    <th>Cookie Name</th>
-                                                    <th>Kategorie</th>
-                                                    <th>???</th>
-                                                    <th>???</th>
+                                                    <th>Vendor Name</th>
+                                                    <th>Zweck</th>
+                                                    <th>policyURL</th>
                                                     <th>Cookie bearbeiten</th>
                                                     <th>Cookie entfernen</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($vendors as $vendor)
+                                                @foreach ($vendorsWithPurposes as $vendor)
                                                 <tr>
-                                                    <td>{{ $vendor->name }}</td>
+                                                    <td>{{ $vendor['name'] }}</td>
                                                     <td>
-                                                        <button type="button" name="edit_cookie" id="edit_cookie" class="btn btn-primary" data-toggle="modal" data-target="#cookieEditModal">
+                                                        @foreach ($vendor['purposes'] as $index => $purpose)
+                                                            {{ $purpose }}
+                                                            @if ($index < count($vendor['purposes']) - 1),
+                                                            @endif
+                                                        @endforeach
+                                                    </td>
+                                                    <td>{{ $vendor['policyURL'] }}</td>
+                                                    <td>
+                                                        <button type="button" name="edit_cookie" id="edit_cookie" class="btn btn-primary" data-toggle="modal" data-target="#cookieEditModal" data-vendor-id="{{ $vendor['id'] }}" onclick="openEditModal('{{ $vendor['id'] }}', '{{ $vendor['name'] }}', '{{ isset($vendor['purposes_id'][0]) ? $vendor['purposes_id'][0] : '' }}', '{{ $vendor['policyURL'] }}')">
                                                             Bearbeiten
-                                                          </button>
+                                                        </button>
+                                                        
+                                                 
                                                           
                                                     </td>
                                                     <td>
                                                         <form action="{{ route('delete_vendor') }}" method="POST" onsubmit="return confirm('Sind Sie sicher?');">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <input type="hidden" name="consentId" value="{{ $vendor->id }}">
+                                                            <input type="hidden" name="vendor_id" value="{{ $vendor['id'] }}">
                                                             <button class="btn btn-danger" type="submit">Entfernen</button>
-                                                        </form>
+                                                        </form>                                                        
                                                     </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <td><strong>Cookie Name</strong></td>
-                                                    <td><strong>Kategorie</strong></td>
-                                                    <td><strong>???</strong></td>
-                                                    <td><strong>???</strong></td>
-                                                    <td><strong>Cookie bearbeiten</strong></td>
-                                                    <td><strong>Cookie entfernen</strong></td>
+                                                    <th>Vendor Name</th>
+                                                    <th>Zweck</th>
+                                                    <th>policyURL</th>
+                                                    <th>Cookie bearbeiten</th>
+                                                    <th>Cookie entfernen</th>
                                                 </tr>
                                             </tfoot>
                                         </table>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6 align-self-center">
-                                            <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Zeige 1 bis 10 von 5</p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                                                <ul class="pagination">
-                                                    <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                    <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
-                                                </ul>
-                                            </nav>
-                                        </div>
-                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>

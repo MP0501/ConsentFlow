@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('script_to_implement'); 
             $table->string('policy_url');
             $table->integer('consent_id');
+            $table->string('iab_id')->nullable();
             $table->foreign('consent_id')->references('id')->on('consent')->onDelete('cascade');
         });
     }
