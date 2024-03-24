@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages;
 use App\Models\Consent;
 use App\Models\Consent_settings;
 use App\Models\User;
+use App\ScriptGenerator\ScriptGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -13,41 +14,41 @@ class SettingsPageController extends Controller
 {
     protected $defaultValues = [
         'design_choice' => '1',
-        'banner_width' => '100',
-        'banner_max_height' => '200',
+        'banner_width' => '500',
+        'banner_max_height' => '800',
         'banner_background' => '#ffffff',
-        'banner_border_radius' => '5',
-        'headline_text' => 'Headline',
-        'headline_size' => '24',
-        'headline_color' => '#2D1D1D',
-        'paragraph_text' => 'Paragraph',
-        'paragraph_size' => '16',
-        'paragraph_color' => '#333333',
-        'accept_text' => 'Accept',
+        'banner_border_radius' => '20',
+        'headline_text' => 'Wir nutzen Cookies',
+        'headline_size' => '25',
+        'headline_color' => '#000000',
+        'paragraph_text' => 'Wir verwenden Cookies auf unserer Website, um Ihnen das bestmögliche Nutzererlebnis zu bieten. Cookies sind kleine Textdateien, die auf Ihrem Gerät gespeichert werden und uns helfen zu verstehen, wie Sie unsere Website nutzen, damit wir Ihr Erlebnis bei zukünftigen Besuchen verbessern können.        ',
+        'paragraph_size' => '14',
+        'paragraph_color' => '#1f1f1f',
+        'accept_text' => 'Alle Akzeptieren',
         'accept_color' => '#ffffff',
-        'accept_border_color' => '#4CAF50',
-        'accept_border_width' => '1',
-        'accept_border_radius' => '5',
-        'accept_background_color' => '#4CAF50',
-        'reject_text' => 'Reject',
-        'reject_color' => '#ffffff',
-        'reject_border_color' => '#f44336',
-        'reject_border_width' => '1',
-        'reject_border_radius' => '5',
-        'reject_background_color' => '#f44336',
-        'settings_text' => 'Settings',
-        'settings_color' => '#ffffff',
-        'settings_border_color' => '#007bff',
-        'settings_border_width' => '1',
-        'settings_border_radius' => '5',
-        'settings_background_color' => '#007bff',
-        'link_color' => '#007bff',
+        'accept_border_color' => '#0f53c8',
+        'accept_border_width' => '2',
+        'accept_border_radius' => '20',
+        'accept_background_color' => '#0f53c8',
+        'reject_text' => 'Ablehnen',
+        'reject_color' => '#0f53c8',
+        'reject_border_color' => '#0f53c8',
+        'reject_border_width' => '2',
+        'reject_border_radius' => '20',
+        'reject_background_color' => '#fff',
+        'settings_text' => 'Einstellungen',
+        'settings_color' => '#0f53c8',
+        'settings_border_color' => '#0f53c8',
+        'settings_border_width' => '2',
+        'settings_border_radius' => '20',
+        'settings_background_color' => '#fff',
+        'link_color' => '#000000',
         'link_font_size' => '14',
-        'imprint' => "www.url.de",
-        'privacy_url' => "www.url.de",
-        'save_settings' => "Einstellungen Speichern",
+        'imprint' => "https://deine.url/impressum",
+        'privacy_url' => "https://deine.url/datenschutzerklärung",
+        'save_settings' => "Speichern",
         'setting_icon' => "https://brawltown.net/img/BT-Logo.webp",
-        'icon' => "https://brawltown.net/img/BT-Logo.webp",
+        'icon' => "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Universität_Würzburg_Logo.svg/200px-Universität_Würzburg_Logo.svg.png",
     ];
     
 
@@ -86,17 +87,19 @@ class SettingsPageController extends Controller
         ]); 
     }
 
+
+
     public function updateSettings(Request $request)
     {
 
         $request->validate([
             'design_choice' => 'required|integer|between:1,3', 
-            'banner_max_height' => 'required|numeric|min:10|max:100',
-            'banner_width' => 'required|numeric|min:100|max:2000', 
+            'banner_max_height' => 'required|numeric|min:100|max:3000',
+            'banner_width' => 'required|numeric|min:100|max:3000', 
             'banner_border_radius' => 'required|numeric|min:0|max:50', 
             'headline_text' => 'required|string|max:100', 
             'headline_size' => 'required|numeric|min:10|max:50', 
-            'paragraph_text' => 'required|string|max:500', 
+            'paragraph_text' => 'required|string|max:1000', 
             'paragraph_size' => 'required|numeric|min:8|max:24', 
             'accept_text' => 'required|string|max:20',
             'accept_border_width' => 'required|numeric|min:1|max:5', 
@@ -108,12 +111,13 @@ class SettingsPageController extends Controller
             'settings_border_width' => 'required|numeric|min:1|max:5', 
             'settings_border_radius' => 'required|numeric|min:0|max:50', 
             'link_font_size' => 'required|numeric|min:4|max:24', 
-            'imprint' => ['required', 'url_without_http'],
-            'privacy_url' => ['required', 'url_without_http'],
+            'imprint' => ['required', 'url'],
+            'privacy_url' => 'required|url',
             'save_settings' => 'required|string|max:50', 
             'setting_icon' => 'required|url', 
             'icon' => 'required|url'
         ]);
+
 
         
 
@@ -124,9 +128,9 @@ class SettingsPageController extends Controller
         $consent=$user->consents()->where('id', $consentId)->first();
 
         $keys = array_keys($this->defaultValues);
+
         foreach ($keys as $key) {
             $value = $request->input($key);
-            error_log($request->input('design_choice'));
 
             if ($value != $this->defaultValues[$key]) {
                 // Aktualisierung der Einstellung
@@ -139,9 +143,46 @@ class SettingsPageController extends Controller
                 $consent->settings()->where('key', $key)->delete();
             }
         }
+
+       #Skript generieren
+       $consentSetting = $consent->settings()->get();
+       $settings = [];
+       foreach ($consentSetting as $setting) {
+           $settings[$setting->key] = $setting->value;
+       }
+
+
+       $vendors=$consent->vendors()->get();
+       
+       $vendorsNew = [];
+       foreach ($vendors as $vendor) {
+           array_push($vendorsNew,[
+               'id' => $vendor->id,
+               'iab_id' => $vendor->iab_id,
+               'name' => $vendor->name,
+               'purposes' => $vendor->purposes()->pluck('id')->toArray(),
+               'policyUrl' => $vendor->policy_url,
+               'cookieMaxAgeSeconds' => $vendor->cookieMaxAgeSeconds,
+           ]);
+       }
+
+       $sg = new ScriptGenerator($vendorsNew, $settings);
+       $sg->generateScript();
+       $sg->getScript();
         
-        // Weiterleitung 
+        
+
         return back()->with('success', 'Designeinstellung erfolgreich gespeichert.');
+    }
+
+    public function defaultSettings(Request $request)
+    {
+        $consentId = session()->get('ConsentId');
+        $user = $request->user();
+        $consent=$user->consents()->where('id', $consentId)->first();
+        $consent_setting=$consent->settings();
+        $consent_setting->delete();
+        return back()->with('success', 'Einstellungen wurden erfolgreich zurückgesetzt.');
     }
     
 }

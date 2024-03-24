@@ -65,14 +65,17 @@ Route::delete('/delete_vendor', [CookieScannerController::class, 'delete_vendor'
 Route::delete('/delete_website', [ConsentController::class, 'delete_website'])->name('delete_website');
 Route::post('/add_consent', [ConsentController::class, 'add_consent'])->name('add_consent')->middleware('auth');
 
-Route::post('/updateSettings', [LicenseController::class, 'updateSettings'])->name('updateSettings');
+Route::post('/updateSettings_license', [LicenseController::class, 'updateSettings_license'])->name('updateSettings_license');
 Route::post('/updateAdress', [LicenseController::class, 'updateAdress'])->name('updateAdress');
 Route::post('/updatePhoto', [LicenseController::class, 'updatePhoto'])->name('updatePhoto');
 
 Route::post('/updateSettings', [SettingsPageController::class, 'updateSettings'])->name('updateSettings');
+Route::post('/defaultSettings', [SettingsPageController::class, 'defaultSettings'])->name('defaultSettings');
+
 
 Route::post('/addConsentVendor', [CookieScannerController::class, 'addConsentVendor'])->name('addConsentVendor');
 
+Route::post('/generate_invoice', [LicenseController::class, 'generate_invoice'])->name('generate_invoice');
 
 
 require __DIR__.'/auth.php';

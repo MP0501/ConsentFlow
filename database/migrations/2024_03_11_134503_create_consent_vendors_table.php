@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('policy_url');
             $table->integer('consent_id');
             $table->string('iab_id')->nullable();
-            $table->integer('cookieMaxAgeSeconds')->nullable();;
+            $table->integer('cookieMaxAgeSeconds')->nullable();
             $table->foreign('consent_id')->references('id')->on('consent')->onDelete('cascade');
         });
     }

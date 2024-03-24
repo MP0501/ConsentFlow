@@ -2,6 +2,7 @@
 <html data-bs-theme="light" lang="en">
 
 <head>
+    <script src="/test.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Table - ConsentFlow</title>
@@ -15,6 +16,8 @@
     <link rel="stylesheet" href="assets/css/Pricing-Duo-badges.css">
     <link rel="stylesheet" href="assets/css/Pricing-Duo-icons.css">
     <link rel="stylesheet" href="assets/css/untitled.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath d='M476 480H324a36 36 0 0 1 -36-36V96h-96v156a36 36 0 0 1 -36 36H16a16 16 0 0 1 -16-16v-32a16 16 0 0 1 16-16h112V68a36 36 0 0 1 36-36h152a36 36 0 0 1 36 36v348h96V260a36 36 0 0 1 36-36h140a16 16 0 0 1 16 16v32a16 16 0 0 1 -16 16H512v156a36 36 0 0 1 -36 36z'/%3E%3C/svg%3E">
+
 </head>
 
 <body id="page-top">
@@ -270,6 +273,7 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/theme.js"></script>
+    
 </body>
 
 </html>

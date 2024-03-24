@@ -31,8 +31,7 @@ class AppServiceProvider extends ServiceProvider
                       ->mixedCase()
                       ->uncompromised();
         });
-        Validator::extend('url_without_http', function ($attribute, $value, $parameters, $validator) {
-            return preg_match('#^(http(s)?://)?([\w-]+\.)+[\w-]+(/[a-zA-Z0-9 ;,./?%&=]*)?$#', $value);
-        });
+    
+        
     }
 }

@@ -2,6 +2,8 @@
 <html data-bs-theme="light" lang="en">
 
 <head>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath d='M476 480H324a36 36 0 0 1 -36-36V96h-96v156a36 36 0 0 1 -36 36H16a16 16 0 0 1 -16-16v-32a16 16 0 0 1 16-16h112V68a36 36 0 0 1 36-36h152a36 36 0 0 1 36 36v348h96V260a36 36 0 0 1 36-36h140a16 16 0 0 1 16 16v32a16 16 0 0 1 -16 16H512v156a36 36 0 0 1 -36 36z'/%3E%3C/svg%3E">
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Table - ConsentFlow</title>
@@ -139,8 +141,14 @@ textInput.addEventListener('input', function() {
                                 <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">{{$first_name}}</span>
                                     <img class="border rounded-circle img-profile" src={{ asset($photo ? 'storage/' . $photo : 'assets/img/default_profil_new.webp') }}></a>
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="profile.html"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profil</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Ausloggen</a>
-                                    </div>
+   
+                                        <div class="dropdown-divider"></div>
+<form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="dropdown-item">
+        <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Ausloggen
+    </button>
+</form>                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -211,7 +219,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=banner_max_height id=banner_max_height value="{{ $settings['banner_max_height'] }}">
                                                         @error('banner_max_height')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Breite</td>
@@ -219,7 +227,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=banner_width id=banner_width value="{{ $settings['banner_width'] }}">
                                                         @error('banner_width')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Hintergrundfarbe</td>
@@ -238,7 +246,7 @@ textInput.addEventListener('input', function() {
                                                         <input  class="border rounded input_design" type="text" id="banner_border_radius" name="banner_border_radius" value="{{ $settings['banner_border_radius'] }}">
                                                         @error('banner_border_radius')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td>
+                                                    <td>px
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -263,7 +271,7 @@ textInput.addEventListener('input', function() {
                                                 <tr>
                                                     <td style="width: 154.516px;">Überschrift Text</td>
                                                     <td style="width: 258.641px;">
-                                                        <input class="border rounded input_design" type="text" name=headline_text id=headline_text value="{{ $settings['headline_text'] }}">
+                                                        <input class="border rounded input_design"  type="textarea" name=headline_text id=headline_text value="{{ $settings['headline_text'] }}">
                                                         @error('headline_text')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
                                                     <td></td>
@@ -274,7 +282,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=headline_size id=headline_size value="{{ $settings['headline_size'] }}">
                                                         @error('headline_size')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Überschriftfarbe</td>
@@ -308,7 +316,7 @@ textInput.addEventListener('input', function() {
                                                 <tr>
                                                     <td style="width: 154.516px;">Text</td>
                                                     <td style="width: 258.641px;">
-                                                        <input class="border rounded input_design" type="text" name=paragraph_text id=paragraph_text value="{{ $settings['paragraph_text'] }}">
+                                                        <textarea class="border rounded input_design" name="paragraph_text" id="paragraph_text" style="height: 120px;">{{ $settings['paragraph_text'] }}</textarea>
                                                         @error('paragraph_text')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
                                                     <td></td>
@@ -319,7 +327,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=paragraph_size  id=paragraph_size  value="{{ $settings['paragraph_size'] }}">
                                                         @error('paragraph_size')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Textfarbe</td>
@@ -361,7 +369,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=accept_text id=accept_text value="{{ $settings['accept_text'] }}">
                                                         @error('accept_text')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Akzeptierbutton<br> Textfarbe</td>
@@ -391,7 +399,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=accept_border_width id=accept_border_width value="{{ $settings['accept_border_width'] }}">
                                                         @error('accept_border_width')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Akzeptierbutton<br> Umrandung</td>
@@ -399,7 +407,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=accept_border_radius id=accept_border_radius value="{{ $settings['accept_border_radius'] }}">
                                                         @error('accept_border_radius')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Akzeptierbutton&nbsp; Hintergrund Farbe</td>
@@ -467,7 +475,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=reject_border_width id=reject_border_width value="{{ $settings['reject_border_width'] }}">
                                                         @error('reject_border_width')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Ablehnbutton Umrandung</td>
@@ -475,7 +483,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=reject_border_radius id=reject_border_radius value="{{ $settings['reject_border_radius'] }}">
                                                         @error('reject_border_radius')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Ablehnbutton Hintergrund Farbe</td>
@@ -543,7 +551,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=settings_border_width id=settings_border_width value="{{ $settings['settings_border_width'] }}">
                                                         @error('settings_border_width')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Einstellbutton Umrandung</td>
@@ -551,7 +559,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=settings_border_radius id=settings_border_radius value="{{ $settings['settings_border_radius'] }}">
                                                         @error('settings_border_radius')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="width: 154.516px;">Einstellbutton Hintergrund Farbe</td>
@@ -605,7 +613,7 @@ textInput.addEventListener('input', function() {
                                                         <input class="border rounded input_design" type="text" name=link_font_size id=link_font_size value="{{ $settings['link_font_size'] }}">
                                                         @error('link_font_size')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
-                                                    <td></td>
+                                                    <td>px</td>
                                                 </tr>
                                             </tbody>
                                             <tfoot>
@@ -631,7 +639,8 @@ textInput.addEventListener('input', function() {
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Link zur Datenschutzerklärung</td>
+                                                    <td style="width: 154.516px;">Link zur Datenschutz-
+                                                        erklärung</td>
                                                     <td style="width: 258.641px;">
                                                         <input class="border rounded input_design" type="text" name=privacy_url id=privacy_url value="{{ $settings['privacy_url'] }}">
                                                         @error('privacy_url')<span class="text-danger">{{ $message }}</span>@enderror
@@ -710,10 +719,19 @@ textInput.addEventListener('input', function() {
                         </div>
                     </div>
                     <div class="row" style="margin-bottom: 20px;">
+                        <div class="col-auto">
                         <div class="col" style="text-align: left;"><button class="btn btn-primary" type="submit" style="width: 187px;">Speichern</button></div>
+                    </form>
+                </div>
+                <div class="col-auto">
+                    <form method="POST" action="{{route('defaultSettings') }}">
+                        @csrf 
+                        <div class="col" style="text-align: left;"><button class="btn btn-outline-primary" type="submit" style="width: 187px;">Zurücksetzen</button></div>
+                    </form>
                     </div>
                 </div>
-            </form>
+            </div>
+
             </div>
             <x-footer />
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>

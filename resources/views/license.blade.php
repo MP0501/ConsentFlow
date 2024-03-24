@@ -2,6 +2,8 @@
 <html data-bs-theme="light" lang="en">
 
 <head>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath d='M476 480H324a36 36 0 0 1 -36-36V96h-96v156a36 36 0 0 1 -36 36H16a16 16 0 0 1 -16-16v-32a16 16 0 0 1 16-16h112V68a36 36 0 0 1 36-36h152a36 36 0 0 1 36 36v348h96V260a36 36 0 0 1 36-36h140a16 16 0 0 1 16 16v32a16 16 0 0 1 -16 16H512v156a36 36 0 0 1 -36 36z'/%3E%3C/svg%3E">
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Profile - ConsentFlow</title>
@@ -39,8 +41,14 @@
                                 <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">{{$first_name}}</span>
                                     <img class="border rounded-circle img-profile" src={{ asset($photo ? 'storage/' . $photo : 'assets/img/default_profil_new.webp') }}></a>
                                     <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="profile.html"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profil</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Ausloggen</a>
-                                    </div>
+   
+                                        <div class="dropdown-divider"></div>
+<form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="dropdown-item">
+        <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Ausloggen
+    </button>
+</form>                                    </div>
                                 </div>
                             </li>
                         </ul>
@@ -142,7 +150,7 @@
                                             <p class="text-primary m-0 fw-bold">Einstellungen</p>
                                         </div>
                                         <div class="card-body">
-                                            <form action="{{ route('updateSettings') }}" method="POST">
+                                            <form action="{{ route('updateSettings_license') }}" method="POST">
                                                 @csrf
                                                 <div class="row">
                                                     <div class="col">
@@ -187,12 +195,37 @@
                                             
                                         </div>
                                     </div>
+                                    <div class="card shadow" style="margin-top: 20px;">
+                                        <div class="card-header py-3">
+                                            <p class="text-primary m-0 fw-bold">Rechnungen</p>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="mb-3"></div>
+                                                    <form action="{{ route('generate_invoice') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="consent_id" value="{{ $all_count }}">
+                                                        <button class="btn btn-primary btn-sm" type="submit">Rechnung erstellen</button>
+                                                    </form>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="mb-3"></div>
+                                                    <p><span style="color: var(--tw-prose-body);">Die Rechnungen werden einmal im Monat jeweils zum 1. des Monats erstellt und per E-Mail versandt. Zum Testen haben wir einen Button zum Erstellen der Rechnungen eingerichtet.</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+            
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            
+            
             <x-footer />
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
