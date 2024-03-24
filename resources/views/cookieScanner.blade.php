@@ -101,10 +101,65 @@
 
 
   <script>
-    function openEditModal(vendorId, vendorName, vendorPurpose, vendorPolicyURL) {
+    function openEditModal(vendorId, vendorName, vendorPurpose, script_to_implement, vendorPolicyURL, id) {
         document.getElementById('vendor_id').value = vendorId;
         document.getElementById('vendor_name').value = vendorName;
-        document.getElementById('vendor_purpose').value = vendorPurpose;
+        
+         var purposeContainer = document.getElementById('purpose_container');
+        purposeContainer.innerHTML = '';
+
+        vendorPurpose.forEach(function(purpose, index) {
+
+            // Erstelle ein neues select-Element
+            var selectElement = document.createElement('select');
+            selectElement.classList.add('form-control', 'border', 'rounded');
+            selectElement.name = 'purpose';
+            selectElement.required = true;
+            selectElement.id = 'vendor_purpose_' + (index + 1);
+            selectElement.name = 'vendor_purpose_' + (index + 1);
+
+             // Füge das Label für den Zweck hinzu
+            var purposeLabel = document.createElement('label');
+            var purposeLabelText = 'Zweck ' + (index + 1)
+            purposeLabel.textContent = purposeLabelText;
+            purposeLabel.setAttribute('for', 'vendor_purpose_' + (index + 1));
+            purposeContainer.appendChild(purposeLabel);
+
+            // Erstelle die Optionen für das select-Element
+            var options = [
+                { value: '', text: 'Bitte auswählen' },
+                { value: '1', text: 'Information speichern/abrufen' },
+                { value: '2', text: 'Begrenzte Daten für Werbung' },
+                { value: '3', text: 'Profile für personalisierte Werbung erstellen' },
+                { value: '4', text: 'Profile für Werbung verwenden' },
+                { value: '5', text: 'Profile zur Personalisierung von Inhalten erstellen' },
+                { value: '6', text: 'Personalisierte Inhalte auswählen' },
+                { value: '7', text: 'Werbungsleistung messen' },
+                { value: '8', text: 'Inhaltsleistung messen' },
+                { value: '9', text: 'Publikum verstehen durch Datenanalyse' },
+                { value: '10', text: 'Dienste entwickeln und verbessern' },
+                { value: '11', text: 'Begrenzte Daten zur Inhaltsauswahl verwenden' }
+            ];
+
+            // Füge die Optionen zum select-Element hinzu
+            options.forEach(function(option) {
+                var optionElement = document.createElement('option');
+                optionElement.value = option.value;
+                optionElement.textContent = option.text;
+                selectElement.appendChild(optionElement);
+            });
+
+
+        
+
+            // Füge das select-Element zum Container hinzu
+            purposeContainer.appendChild(selectElement);
+
+            selectElement.value = String(purpose);
+
+        });
+        document.getElementById('vendor_id_hidden').value = id;
+        document.getElementById('script_to_implement').value = script_to_implement;
         document.getElementById('vendor_policyURL').value = vendorPolicyURL;
         $('#cookieEditModal').modal('show');
     }
@@ -125,25 +180,29 @@
             <div class="modal-body">
                 <form action="{{ route('change_vendor') }}" method="POST">
                     @csrf
-                    @method('PUT')
                     <input type="hidden" name="vendor_id" id="vendor_id">
                     <div class="form-group">
                         <label for="vendor_name">Vendor Name</label>
-                        <input type="text" class="form-control" id="vendor_name" name="name">
+                        <input type="text" class="form-control" id="vendor_name" name="name" required>
+                        <input type="hidden" class="form-control" id="vendor_id_hidden" name="vendor_id_hidden" required>
                     </div>
                     <div class="form-group">
-                        <label for="vendor_purpose">Zweck</label>
-                        <input type="text" class="form-control" id="vendor_purpose" name="script_to_implement">
+                        <div id="purpose_container"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="script_to_implement">Script to implement</label>
+                        <input type="text" class="form-control" id="script_to_implement" name="script_to_implement" required>
                     </div>
                     <div class="form-group">
                         <label for="vendor_policyURL">policyURL</label>
-                        <input type="text" class="form-control" id="vendor_policyURL" name="policy_url">
+                        <input type="text" class="form-control" id="vendor_policyURL" name="policy_url" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Änderungen speichern</button>
-                </form>
+                    
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                <button type="submit" class="btn btn-primary">Änderungen speichern</button>
+                </form>
             </div>
         </div>
     </div>
@@ -265,7 +324,7 @@
                                                     </td>
                                                     <td>{{ $vendor['policyURL'] }}</td>
                                                     <td>
-                                                        <button type="button" name="edit_cookie" id="edit_cookie" class="btn btn-primary" data-toggle="modal" data-target="#cookieEditModal" data-vendor-id="{{ $vendor['id'] }}" onclick="openEditModal('{{ $vendor['id'] }}', '{{ $vendor['name'] }}', '{{ isset($vendor['purposes_id'][0]) ? $vendor['purposes_id'][0] : '' }}', '{{ $vendor['policyURL'] }}')">
+                                                        <button type="button" name="edit_cookie" id="edit_cookie" class="btn btn-primary" data-toggle="modal" data-target="#cookieEditModal" data-vendor-id="{{ $vendor['id'] }}" onclick="openEditModal('{{ $vendor['id'] }}', '{{ $vendor['name'] }}', {{ json_encode($vendor['purposes_id']) }},'{{$vendor['script_to_implement']}}' ,'{{ $vendor['policyURL'] }}','{{ $vendor['id'] }}')">
                                                             Bearbeiten
                                                         </button>
                                                         

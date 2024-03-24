@@ -34,7 +34,7 @@ class CookieScannerController extends Controller
         ];
         
         
-
+        $vendorsWithPurposes=[];
         foreach ($vendors as $vendor) {
             $purposes = $vendor->purposes()->pluck('purpose_id')->toArray();
         
@@ -65,14 +65,48 @@ class CookieScannerController extends Controller
 
     public function change_vendor(Request $request)
     {
+        $policy_url = $request->input('policy_url');
+        $script_to_implement = $request->input('script_to_implement');
+        $name = $request->input('name');
+        $vendor_id=$request->input('vendor_id_hidden');
 
+        $user = $request->user();        
+        $consent_id=session()->get('ConsentId');
+        $consents=$user->consents()->where('id',$consent_id)->first();
+        $vendor = $consents->vendors()->where('id', $vendor_id)->first();
+
+        $vendor->update([
+            'policy_url' => $policy_url,
+            'script_to_implement' => $script_to_implement,
+            'name'=>$name
+        ]);
+
+        $new_purposes = [];
+        foreach ($request->all() as $key => $value) {
+            if (strpos($key, 'vendor_purpose_') === 0) {
+                $new_purposes[] = $value;
+            }
+        }
+        $purposes=$vendor->purposes()->get();
+        foreach ($purposes as $index => $purpose) {
+            $purpose->update([
+                'purpose_id' => $new_purposes[$index]
+            ]);
+        }
+
+        return redirect()->route('cookieScanner');
     }
 
     public function delete_vendor(Request $request)
     {
-        $vendorId = $request->input('vendor_id');
+        $vendor_id = $request->input('vendor_id');
 
-        Consent_vendors::destroy($vendorId);
+        $user = $request->user();        
+        $consent_id=session()->get('ConsentId');
+        $consents=$user->consents()->where('id',$consent_id)->first();
+        $vendor = $consents->vendors()->where('id', $vendor_id)->first();
+
+        $vendor->delete();
         return redirect()->route('cookieScanner');
     }
 
