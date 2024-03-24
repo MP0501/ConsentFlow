@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+
 class SettingsPageController extends Controller
 {
     protected $defaultValues = [
@@ -42,6 +43,11 @@ class SettingsPageController extends Controller
         'settings_background_color' => '#007bff',
         'link_color' => '#007bff',
         'link_font_size' => '14',
+        'imprint' => "www.url.de",
+        'privacy_url' => "www.url.de",
+        'save_settings' => "Einstellungen Speichern",
+        'setting_icon' => "https://brawltown.net/img/BT-Logo.webp",
+        'icon' => "https://brawltown.net/img/BT-Logo.webp",
     ];
     
 
@@ -102,7 +108,14 @@ class SettingsPageController extends Controller
             'settings_border_width' => 'required|numeric|min:1|max:5', 
             'settings_border_radius' => 'required|numeric|min:0|max:50', 
             'link_font_size' => 'required|numeric|min:4|max:24', 
+            'imprint' => ['required', 'url_without_http'],
+            'privacy_url' => ['required', 'url_without_http'],
+            'save_settings' => 'required|string|max:50', 
+            'setting_icon' => 'required|url', 
+            'icon' => 'required|url'
         ]);
+
+        
 
 
 

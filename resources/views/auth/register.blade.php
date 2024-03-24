@@ -104,9 +104,9 @@
 
                                         
                                                 <!-- Submit Button -->
-                                                <x-primary-button class="btn btn-primary d-block btn-user w-100">
-                                                    {{ __('Register') }}
-                                                </x-primary-button>
+                                                <button class="btn btn-primary d-block btn-user w-75 mx-auto" type="submit">{{ __('Registrieren') }}</button>
+
+                                               
                                                 @if (Route::has('password.request'))
                                                 <div class="text-center">
                                                     <a class="small" href="{{ route('password.request') }}">

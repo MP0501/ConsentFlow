@@ -13,7 +13,7 @@ class Consent_vendors extends Model
 
     protected $table = "consent_vendors";
 
-    protected $fillable = ['name', 'script_to_implement', 'policy_url', 'consent_id','iab_id'];
+    protected $fillable = ['name', 'script_to_implement', 'policy_url', 'consent_id','iab_id','cookieMaxAgeSeconds'];
 
     public function consent():BelongsTo
     {

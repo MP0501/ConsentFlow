@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -29,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
             return Password::min(8)
                       ->mixedCase()
                       ->uncompromised();
+        });
+        Validator::extend('url_without_http', function ($attribute, $value, $parameters, $validator) {
+            return preg_match('#^(http(s)?://)?([\w-]+\.)+[\w-]+(/[a-zA-Z0-9 ;,./?%&=]*)?$#', $value);
         });
     }
 }

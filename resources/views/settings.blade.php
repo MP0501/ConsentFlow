@@ -20,6 +20,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
 
 
+<style>
+    .pcr-button {
+        border: 2px solid #000; 
+        border-radius:6px!important;
+    }
+</style>
 
 
 <script>
@@ -30,6 +36,7 @@
             @endphp
     
             @if ($isColorValue)
+            
                 const pickr_{{ Str::slug($key, '_') }} = Pickr.create({
                     el: '#{{ $key }}_color_picker',
                     theme: 'classic', 
@@ -50,6 +57,7 @@
                     document.getElementById('{{ $key }}').value = color.toHEXA().toString(0); 
                     instance.hide(); 
                 });
+
             @endif
         @endforeach
     });
@@ -566,6 +574,7 @@ textInput.addEventListener('input', function() {
                             </div>
                         </div>
                     </div>
+                    
                     <div class="row" style="margin-bottom: 20px;">
                         <div class="col">
                             <div class="card shadow" style="margin-bottom: 20px;">
@@ -595,6 +604,98 @@ textInput.addEventListener('input', function() {
                                                     <td style="width: 258.641px;">
                                                         <input class="border rounded input_design" type="text" name=link_font_size id=link_font_size value="{{ $settings['link_font_size'] }}">
                                                         @error('link_font_size')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr></tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col">
+                            <div class="card shadow" style="margin-bottom: 20px;">
+                                <div class="card-header py-3">
+                                    <p class="text-primary m-0 fw-bold">Datenschutz Einstellungen</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable-7" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table my-0" id="dataTable">
+                                            <thead>
+                                                <tr></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Link zur Datenschutzerklärung</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=privacy_url id=privacy_url value="{{ $settings['privacy_url'] }}">
+                                                        @error('privacy_url')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </td>
+                                                    <td>
+                                                        <div id="link_color_color_picker"></div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Link zum Impressum</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=imprint id=imprint value="{{ $settings['imprint'] }}">
+                                                        @error('imprint')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr></tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 20px;">
+                        <div class="col">
+                            <div class="card shadow" style="margin-bottom: 20px;">
+                                <div class="card-header py-3">
+                                    <p class="text-primary m-0 fw-bold">Weitere Einstellungen</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable-7" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table my-0" id="dataTable">
+                                            <thead>
+                                                <tr></tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Button Speichern Text</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=save_settings id=save_settings value="{{ $settings['save_settings'] }}">
+                                                        @error('save_settings')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </td>
+                                                    <td>
+                                                        <div id="link_color_color_picker"></div>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Icon</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=icon id=icon value="{{ $settings['icon'] }}">
+                                                        @error('icon')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="width: 154.516px;">Einstellungs Icon</td>
+                                                    <td style="width: 258.641px;">
+                                                        <input class="border rounded input_design" type="text" name=setting_icon id=setting_icon value="{{ $settings['setting_icon'] }}">
+                                                        @error('setting_icon')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
                                                     <td></td>
                                                 </tr>
