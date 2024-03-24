@@ -2,7 +2,6 @@
 <html data-bs-theme="light" lang="en">
 
 <head>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath d='M476 480H324a36 36 0 0 1 -36-36V96h-96v156a36 36 0 0 1 -36 36H16a16 16 0 0 1 -16-16v-32a16 16 0 0 1 16-16h112V68a36 36 0 0 1 36-36h152a36 36 0 0 1 36 36v348h96V260a36 36 0 0 1 36-36h140a16 16 0 0 1 16 16v32a16 16 0 0 1 -16 16H512v156a36 36 0 0 1 -36 36z'/%3E%3C/svg%3E">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -187,6 +186,7 @@
                                                         <div class="mb-3"><label class="form-label" for="country"><strong>Land</strong></label><input class="form-control" type="text" id="country" placeholder="Deutschland" value="{{$country ?? 'Deutschland' }}" name="country"></div>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit">Einstellungen speichern</button></div>
                                                 @csrf
 
@@ -201,13 +201,20 @@
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
+                                                
                                                 <div class="col">
                                                     <div class="mb-3"></div>
+                                                    @if (session('error'))
+                                                    <div class="alert alert-danger">
+                                                        {{ session('error') }}
+                                                    </div>
+                                                @endif
                                                     <form action="{{ route('generate_invoice') }}" method="POST">
                                                         @csrf
                                                         <input type="hidden" name="consent_id" value="{{ $all_count }}">
                                                         <button class="btn btn-primary btn-sm" type="submit">Rechnung erstellen</button>
                                                     </form>
+                                                    
                                                 </div>
                                                 <div class="col">
                                                     <div class="mb-3"></div>

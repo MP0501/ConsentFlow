@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ConsentController;
 use App\Http\Controllers\AuthController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/consents_api', [ConsentController::class, 'store']);

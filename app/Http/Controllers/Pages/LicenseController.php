@@ -42,6 +42,12 @@ class LicenseController extends Controller
     public function generate_invoice(Request $request)
     {  
         $user = $request->user();
+        $user_info=$user->user_info()->first();
+        if (is_null($user_info->address) || is_null($user_info->city) || is_null($user_info->country)) {
+            return redirect('/license')->with('error', 'Bitte fülle deine Adressdaten aus, bevor du eine Rechnung generierst.');
+        }
+        
+
         $consent_id=session()->get('ConsentId');
         $Consent = $user->consents()->where('id',$consent_id)->first();
         $all_count = $Consent->consentViews()->count();
