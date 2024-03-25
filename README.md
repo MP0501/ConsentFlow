@@ -4,7 +4,7 @@
 Dies ist die PHP-Version des ConsentFlow-Dashboards. Die Dashboard-Version ist dafür verantwortlich, den Consent zu verwalten und Einstellungen vorzunehmen.
 
 # Routes
-- [Public Routes](#public_routes)
+- [Public Routes](<public_routes>)
 	- [Startseite]
 	- [Impressum]
 	- [Datenschutzerklärung]
