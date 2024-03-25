@@ -223,11 +223,15 @@
           </button>
         </div>
         <div class="modal-body">
+           
             Cookie Scanner gestartet.
             Sollen wir dann hier eine tabelle einabuen mit allen cookies??? und dann auf einfügen oder abrechen? 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+            <form method="POST" action="{{ route('startCookieScanner') }}">
+                @csrf
+                <button type="submit" class="btn btn-primary">Ok</button>
+            </form>
         </div>
       </div>
     </div>

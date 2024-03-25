@@ -74,6 +74,8 @@ Route::post('/defaultSettings', [SettingsPageController::class, 'defaultSettings
 
 
 Route::post('/addConsentVendor', [CookieScannerController::class, 'addConsentVendor'])->name('addConsentVendor');
+Route::post('/startCookieScanner', [CookieScannerController::class, 'startCookieScanner'])->name('startCookieScanner');
+
 
 Route::post('/generate_invoice', [LicenseController::class, 'generate_invoice'])->name('generate_invoice');
 
