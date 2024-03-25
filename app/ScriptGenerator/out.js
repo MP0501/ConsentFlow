@@ -3571,6 +3571,7 @@
             justify-content: center;
             flex-wrap: wrap;
             width: 100%;
+            cursor: pointer;
         }
         
         .cst_container .cst_banner .cst_body .cst_button_wrap .cst_reject{
@@ -3868,20 +3869,21 @@
         let vendor_obj = vendors.find((v) => {
           return v.id == id;
         });
-        if (vendor_obj.script) {
+        if (vendor_obj.hasOwnProperty("script")) {
           document.head.innerHTML = document.head.innerHTML + vendor_obj.script;
         }
       });
     }
-    let analyticsURL = "https://consentflow.de";
-    async function send_analytics(status) {
-      const response = await fetch(analyticsURL, {
+    let analyticsURL = "http://localhost:8000/api/consents_api";
+    function send_analytics(status) {
+      fetch(analyticsURL, {
         method: "POST",
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ consent_id: consentId, accept_value: status })
+      }).then((res) => {
       });
     }
     function addEventListeners() {

@@ -60,13 +60,28 @@
 
             $response = curl_exec($ch);
 
+            curl_close($ch);
+
+            $ch = curl_init();
+
+            $options = array(
+                CURLOPT_URL => 'https://api.bunny.net/purge?url=https://static.consentflow.de/consents/'.$this->consent_id,
+                CURLOPT_HTTPHEADER => array(
+                    "AccessKey: ddd86329-eee5-41d7-b3fe-28cbfc986a8fb7d84b6a-4c3d-4119-b888-8f79fdaeb9a7",
+                    'accept: application/json'
+                )
+            );
+            curl_setopt_array($ch, $options);
+
+            $response = curl_exec($ch);
+
             if (!$response) {
                 return false;
             } else {
                 return true;
             }
 
-            curl_close($ch);
+            
         }
 
         private function insertDefaultSettings($template){
