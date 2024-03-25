@@ -1,66 +1,183 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# ConsentFlow Dashboard und Website
+  
+Dies ist die PHP-Version des ConsentFlow-Dashboards. Die Dashboard-Version ist dafür verantwortlich, den Consent zu verwalten und Einstellungen vorzunehmen.
 
-## About Laravel
+# Routes
+- [Public Routes](#public routes)
+	- [Startseite]
+	- [Impressum]
+	- [Datenschutzerklärung]
+- [Dashbaord](#dashboard)
+	- [Dashboard]
+	- [Einstellungen]
+	- [Websiten Verwalten]
+	- [Vendors Verwalten]
+	- [Nutzerdaten]
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# Public Routes
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Startseite
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Dies ist die Startseite von ConsentFlow. Hier können sich auch Nutzer informieren, die nicht eingeloggt sind, um mehr über ConsentFlow zu erfahren.
 
-## Learning Laravel
+**URL:**  `/`
+**Methode:**  `GET`
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Impressum
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Hier ist das Impressum einzusehen.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**URL:**  `/impressum`
+**Methode:**  `GET`
 
-## Laravel Sponsors
+## Datenschutzerklärung
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Hier ist die Datenschutzerklärung einzusehen.
 
-### Premium Partners
+**URL:**  `/datenschutzerklärung`
+**Methode:**  `GET`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+# Dashboard
 
-## Contributing
+## Dashboard
+Das Dashboard bietet einen schnellen Überblick über die wichtigsten Informationen. Hier können folgende Daten eingesehen werden: 
+- Wie viele Anfragen wurden gestellt 
+- Wie viele Nutzer haben alle Cookies aktiviert  
+- Wie viele Nutzer haben nur die notwendigen Cookies gesetzt 
+- Wie viele Nutzer haben Einstellungen vorgenommen 
+- Wie hoch die Kosten aufgeteilt nach Datum sind 
+- Zudem ist dort die aktuell gültige Lizenz zu sehen
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**URL:**  `/dashboard`
+**Methode:**  `GET`
 
-## Code of Conduct
+## Einstellungen
+Auf dieser Seite können die wichtigsten Design- und inhaltlichen Einstellungen für den Consent-Banner vorgenommen werden. Sobald die Einstellungen gespeichert werden, wird das Skript auf unserem CDN aktualisiert.
+- Design-Einstellungen (Farben, Schriftarten, Positionierung) 
+- Inhaltliche Einstellungen (Texte, Überschriften, Beschreibungen)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Einstellungen Frontpage
 
-## Security Vulnerabilities
+**URL:**  `/settings`
+**Methode:**  `GET`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Einstellungen aktualisieren
 
-## License
+Aktualisiert die vorgenommenen Einstellungen in der Datenbank. Es erfolgt eine Validierung der Einstellungen, und eventuelle Fehler werden zurückgegeben und auf der Website angezeigt.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**URL:**  `/updateSettings`
+**Methode:**  `POST`
+
+### Einstellungen zurücksetzen
+
+Setzt die Einstellungsseite auf die Standardeinstellungen zurück und löscht die bisherigen Einstellungen aus der Datenbank.
+
+**URL:**  `/defaultSettings`
+**Methode:**  `POST`
+
+## Websiten Verwalten
+
+### Websiten Übersicht
+
+Auf der Website-Verwaltungsseite können Nutzer ihre Websites verwalten. Um ConsentFlow zu nutzen, muss man auf dieser Seite seine Website hinzufügen und auswählen. Ist keine Website ausgewählt, wird man immer wieder auf diese Seite weitergeleitet. Sobald eine Website hinzugefügt wurde, wird ein Skript mit Standardwerten erstellt und auf unserem CDN bereitgestellt.
+
+**URL:**  `/manageWebsite`
+**Methode:**  `GET`
+
+### Websiten hinzufügen
+
+Fügt einen neuen Consent in der Datenbank hinzu, setzt die ConsentID in der Session und löst die Aktualisierung des Consent-Skripts aus.
+
+**URL:**  `/add_consent`
+**Methode:**  `POST`
+
+### Implementierungsanleitung
+
+Auf dieser Seite können Benutzer das Skript kopieren, das sie in den Header ihrer Website einbinden müssen, um den Cookie-Banner zu nutzen. Das Skript wird anhand der Consent-ID generiert.
+
+**URL:**  `/script`
+**Methode:**  `GET`
+
+## Vendors Verwalten
+
+### Vendor Übersicht
+
+Startet den Cookie-Scanner, der ein von uns selbst geschriebenes Skript aufruft. Dieser Vorgang kann einige Zeit in Anspruch nehmen. In der Regel dauert dies 5-8 Sekunden.
+
+**URL:**  `/cookieScanner`
+**Methode:**  `GET`
+
+### Vendor aktualisieren
+
+Diese Route ändert die Einstellungen für den ausgewählten Vendor.
+
+**URL:**  `/change_vendor`
+**Methode:**  `POST`
+
+### Vendor löschen
+
+Löscht den ausgewählten Vendor aus der Datenbank.
+
+Löscht eine Website/einen Consent aus der Datenbank.
+
+**URL:**  `/delete_vendor`
+**Methode:**  `POST`
+
+### Vendor manuell hinzufügen
+
+Fügt einen neuen Vendor auf der Cookie-Scanner-Seite hinzu. Diese Funktion wird manuell aufgerufen und schreibt den Vendor in die Datenbank.
+
+**URL:**  `/addConsentVendor`
+**Methode:**  `POST`
+
+### Cookie Scanner ausführen
+
+Auf dieser Seite können Nutzer alle Cookies einsehen, die aktuell erfasst wurden. Die Cookies werden in einer Tabelle angezeigt. Der Cookie-Scanner kann durch einen Button gestartet werden. Er ruft ein externes Skript auf, das alle Cookies übermittelt. Dieser Vorgang kann einige Zeit in Anspruch nehmen. Zusätzlich können Cookies manuell hinzugefügt, bearbeitet oder entfernt werden.
+
+**URL:**  `/startCookieScanner`
+**Methode:**  `POST`
+
+## Nutzerdaten
+
+### Lizenzdaten abrufen
+
+Auf dieser Seite können Nutzer ihre aktuelle Lizenz einsehen und ihre Nutzungsinformationen ändern. Sie können hier auch die aktuellste Rechnung herunterladen. Dafür wird ihre Adresse benötigt.
+
+**URL:**  `/license`
+**Methode:**  `GET`
+
+### Unternehmensdaten aktualisieren
+
+Aktualisiert die Nutzerinformationen in der Tabelle `user_info`.
+
+**URL:**  `/updateSettings_license`
+**Methode:**  `POST`
+
+### Adresse aktualisieren
+
+Aktualisiert die Adresse in der Tabelle `user_info`.
+
+**URL:**  `/updateAdress`
+**Methode:**  `POST`
+
+### Profilfoto aktualisieren
+
+Aktualisiert das Profilfoto in der Tabelle `user_info`. Es erfolgt eine Validierung des Dateiformats und der Dateigröße.
+
+**URL:**  `/updatePhoto`
+**Methode:**  `POST`
+
+### Rechnung erstellen
+
+Berechnet alle Rechnungsdaten und erstellt eine Rechnung für den vergangenen Monat. Die Rechnung wird per E-Mail versendet. Diese Funktion kann manuell aufgerufen werden und wird jeden Monat einmal per Cron-Job gestartet.
+
+**URL:**  `/generate_invoice`
+**Methode:**  `POST`
+
+# API Routen
+
+## Analyse Daten senden
+
+**URL:**  `/consents_api`
+**Methode:**  `POST`
