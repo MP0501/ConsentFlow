@@ -87,10 +87,10 @@ class SettingsPageController extends Controller
     }
 
 
-
+    // Updaten der Einstellungen
     public function updateSettings(Request $request)
     {
-
+        // Validierung der Eingaben
         $request->validate([
             'design_choice' => 'required|integer|between:1,3', 
             'banner_border_radius' => 'required|numeric|min:0|max:50', 
@@ -114,28 +114,26 @@ class SettingsPageController extends Controller
             'icon' => 'required|url'
         ]);
 
-
-        
-
-
-
+        // Consent-ID aus der Sitzung erhalten
         $consentId = session()->get('ConsentId');
         $user = $request->user();
         $consent=$user->consents()->where('id', $consentId)->first();
 
         $keys = array_keys($this->defaultValues);
 
+        // Aktualisieren wenn kein Standartwert, wenn Standartwert aus der Datenbank löschen
         foreach ($keys as $key) {
             $value = $request->input($key);
 
             if ($value != $this->defaultValues[$key]) {
-                // Aktualisierung der Einstellung
+                // Einstellung aktualisieren
                 $consentSetting = $consent->settings()->updateOrCreate(
                     ['key' => $key],
                     ['value' => $value]
                 );
             }
             else{
+                // Einstellung löschen, wenn der Wert dem Standardwert entspricht
                 $consent->settings()->where('key', $key)->delete();
             }
         }
@@ -166,17 +164,18 @@ class SettingsPageController extends Controller
        $sg->generateScript();
        $sg->saveScript($consent_id);
         
-        
-
         return back()->with('success', 'Designeinstellung erfolgreich gespeichert.');
     }
 
+    // Zurücksetzen der Einstellungen auf die Standardwerte
     public function defaultSettings(Request $request)
     {
+        // Zurücksetzen der Einstellungen auf die Standardwerte
         $consentId = session()->get('ConsentId');
         $user = $request->user();
         $consent=$user->consents()->where('id', $consentId)->first();
         $consent_setting=$consent->settings();
+        // Löschen aller Einstellungen für deen aktuellen Consent
         $consent_setting->delete();
         return back()->with('success', 'Einstellungen wurden erfolgreich zurückgesetzt.');
     }

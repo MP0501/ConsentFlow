@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ConsentController;
-use App\Http\Controllers\ConsentViewController;
 use App\Http\Controllers\Pages\CookieScannerController;
 use App\Http\Controllers\Pages\DashboardPageController;
 use App\Http\Controllers\Pages\DatenschutzerklaerungController;
@@ -12,8 +11,6 @@ use App\Http\Controllers\Pages\ManageWebsiteController;
 use App\Http\Controllers\Pages\ScriptPageController;
 use App\Http\Controllers\Pages\SettingsPageController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TestController;
-use App\Http\Controllers\UserInfoController;
 use App\Http\Middleware\ConsentId;
 use Illuminate\Support\Facades\Route;
 
@@ -34,7 +31,6 @@ Route::get('/', function () {
 
 
 
-Route::get('/user/first-name', [UserInfoController::class, 'getFirstName'])->middleware('auth');
 
 
 Route::middleware('auth')->group(function () {

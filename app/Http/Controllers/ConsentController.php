@@ -15,9 +15,10 @@ use function Laravel\Prompts\error;
 
 class ConsentController extends Controller
 {
+    // Hinzufügen eines Consents/einer Website
     public function add_consent(Request $request)
     {
-
+        // Website URL erhalten
         $url = $request->input('url');
         if ($url === null || $url === '') {
             return redirect()->back()->withErrors(['url' => 'Die Website-URL darf nicht leer sein.'])->withInput();
@@ -27,7 +28,7 @@ class ConsentController extends Controller
         }
 
         $request->merge(['url' => $url]);
-        //Sollen wir dns check machen)
+        // Validierung der URL mit DNS Check
         $request->validate([
             'url' => [
                 'required',
@@ -47,6 +48,7 @@ class ConsentController extends Controller
             'user_id' => $user->id,
         ]);
 
+        // Consent-ID in der Sitzung speichern und Skript aktualisieren, damit automatisiert immer die hinzugefügte Website ausgewählt ist
         $request->session()->put('ConsentId', $consent->id);
 
         $this->updateScript($consent);
