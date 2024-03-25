@@ -246,7 +246,7 @@
                     $template = str_replace('%imprint%', $value, $template);
                     break;
                 case "vendor_setting":
-                    $template = str_replace('%vendor_setting%', $value, $template);
+                    $template = str_replace('%vendor_settings%', $value, $template);
                     break;
                 case "vendor_headline":
                     $template = str_replace('%vendor_headline%', $value, $template);

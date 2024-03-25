@@ -3,7 +3,8 @@
 
 <head>
 
-    <script src="http://static.consentflow.de/consents/6"></script>
+    
+    <script src="https://static.consentflow.de/consents/7"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>ConsentFlow - Einfachheit in der Datenzustimmung</title>

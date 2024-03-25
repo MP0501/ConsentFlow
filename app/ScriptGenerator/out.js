@@ -3357,6 +3357,7 @@
     let consentId = "insert_consent_id";
     let vendors = "insert_vendors";
     let vendorsAllowed = [];
+    let iabVendorsAllowed = [];
     let purposes = {};
     let purposesAllowed = [];
     GVL.baseUrl = "https://static.consentflow.de/";
@@ -3375,6 +3376,7 @@
       purposes = allePurposes;
       if (!vendors)
         vendors = [];
+      gvl_obj.narrowVendorsTo(getAllVendorsIds());
       if (!consentStatus()) {
         showBanner();
       } else {
@@ -3392,7 +3394,7 @@
     function showBanner() {
       tcfCmpApi.update("", true);
       let body = document.getElementsByTagName("body");
-      let consentText = ' <div class="cst_container"><div class="cst_banner"><div class="cst_main_container"><div class="cst_head"><img src="%icon%" class="cst_image"><h4 class="cst_headline">%headline%</h4></div><div class="cst_body"><p class="cst_text">%info_text%</p><div class="cst_button_wrap"><a class="cst_accept">%accept%</a><a class="cst_reject">%reject%</a><a id="cst_settings" class="cst_settings">%settings%</a></div><div class="cst_button_wrap"><a class="cst_link">Mehr Infos</a><a class="cst_link" href="%imprint%">Impressum</a><a class="cst_link" href="%privacy%">Datenschutz</a></div></div></div><div class="cst_settings_container"><div class="cst_head"><h4 class="cst_headline">%settings_headline%</h4></div><div class="cst_body"><div class="cst_scroll">%purposes%<div class="cst_reason_container"><div class="cst_reason_info"><h5 class="cst_reason_h">Erforderlich</h5><p class="cst_reason_p">Die technische Speicherung oder der Zugang ist unbedingt erforderlich f\xFCr den rechtm\xE4\xDFigen Zweck, die Nutzung eines bestimmten Dienstes zu erm\xF6glichen, der vom Teilnehmer oder Nutzer ausdr\xFCcklich gew\xFCnscht wird, oder f\xFCr den alleinigen Zweck, die \xDCbertragung einer Nachricht \xFCber ein elektronisches Kommunikationsnetz durchzuf\xFChren.</p></div></div><a class="cst_link" id="cst_vendor_settings">%vendor_settings%</a></div><div class="cst_button_wrap"><a class="cst_accept">%accept%</a><a class="cst_reject">%reject%</a><a id="cst_settings" class="cst_settings cst_save_settings">%save_settings%</a></div><div class="cst_button_wrap"><a class="cst_link">Mehr Infos</a><a class="cst_link" href="%imprint%">Impressum</a><a class="cst_link" href="%privacy%">Datenschutz</a></div></div></div><div class="cst_vendors_container"><div class="cst_head"><h4 class="cst_headline">%vendor_headline%</h4></div><div class="cst_body"><div class="cst_scroll">%vendors%<a class="cst_link" id="cst_reason_settings">%purpose_settings%</a></div><div class="cst_button_wrap"><a class="cst_accept">%accept%</a><a class="cst_reject">%reject%</a><a id="cst_settings" class="cst_settings cst_save_settings">%save_settings%</a></div><div class="cst_button_wrap"><a class="cst_link">Mehr Infos</a><a class="cst_link" href="%imprint%">Impressum</a><a class="cst_link" href="%privacy%">Datenschutz</a></div></div></div></div></div>';
+      let consentText = ' <div class="cst_container"><div class="cst_banner"><div class="cst_main_container"><div class="cst_head"><img src="%icon%" class="cst_image"><h4 class="cst_headline">%headline%</h4></div><div class="cst_body"><p class="cst_text">%info_text%</p><div class="cst_button_wrap"><a class="cst_accept">%accept%</a><a class="cst_reject">%reject%</a><a id="cst_settings" class="cst_settings">%settings%</a></div><div class="cst_button_wrap"><a class="cst_link">Mehr Infos</a><a class="cst_link" href="%imprint%">Impressum</a><a class="cst_link" href="%privacy%">Datenschutz</a></div></div></div><div class="cst_settings_container"><div class="cst_head"><h4 class="cst_headline">%settings_headline%</h4></div><div class="cst_body"><div class="cst_scroll">%purposes%<div class="cst_reason_container"><div class="cst_reason_info"><h5 class="cst_reason_h">Erforderlich</h5><p class="cst_reason_p">The technical storage or access is strictly necessary for the legitimate purpose of enabling the use of a specific service explicitly requested by the subscriber or user, or for the sole purpose of carrying out the transmission of a communication over an electronic communications network.</p></div></div><a class="cst_link" id="cst_vendor_settings">%vendor_settings%</a></div><div class="cst_button_wrap"><a class="cst_accept">%accept%</a><a class="cst_reject">%reject%</a><a id="cst_settings" class="cst_settings cst_save_settings">%save_settings%</a></div><div class="cst_button_wrap"><a class="cst_link">Mehr Infos</a><a class="cst_link" href="%imprint%">Impressum</a><a class="cst_link" href="%privacy%">Datenschutz</a></div></div></div><div class="cst_vendors_container"><div class="cst_head"><h4 class="cst_headline">%vendor_headline%</h4></div><div class="cst_body"><div class="cst_scroll">%vendors%<a class="cst_link" id="cst_reason_settings">%purpose_settings%</a></div><div class="cst_button_wrap"><a class="cst_accept">%accept%</a><a class="cst_reject">%reject%</a><a id="cst_settings" class="cst_settings cst_save_settings">%save_settings%</a></div><div class="cst_button_wrap"><a class="cst_link">Mehr Infos</a><a class="cst_link" href="%imprint%">Impressum</a><a class="cst_link" href="%privacy%">Datenschutz</a></div></div></div></div></div>';
       let purposeText = "";
       for (const [key, value] of Object.entries(purposes)) {
         purposeText = purposeText + '<div class="cst_reason_container"><div class="cst_reason_info"><h5 class="cst_reason_h">' + value.name + '</h5><p class="cst_reason_p">' + value.description + '</p></div><div class="cst_reason_consent_container"><label class="cst_reason_consent_switch"><input type="checkbox" class="cst_reason_consent_checkbox" value_id="' + value.id + ' purpose"><span class="cst_reason_consent_slider"></span></label></div></div>';
@@ -3742,21 +3744,27 @@
         `;
       let style = document.createElement("style");
       style.textContent = cssText;
+      style.name = "ConsentFlowStyles";
       let head = document.head || document.getElementsByTagName("head")[0];
       head.appendChild(style);
     }
     function insertSettingIcon() {
-      let body = document.getElementsByTagName("body");
-      let consentText = '<div class="cst_cookie_settings_container">    <a class="cst_cookie_settings">        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-fill-check" viewBox="0 0 16 16">            <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m2.146 5.146a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793z"/>        </svg>    </a></div>';
-      if (body.length >= 1) {
-        body[0].innerHTML = consentText + body[0].innerHTML;
+      const consentText = document.createElement("div");
+      consentText.classList.add("cst_cookie_settings_container");
+      consentText.innerHTML = `
+            <a class="cst_cookie_settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-fill-check" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m2.146 5.146a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793z"/>
+                </svg>
+            </a>`;
+      const body = document.querySelector("body");
+      if (body) {
+        body.insertBefore(consentText, body.firstChild);
         insertCssClasses();
-        let openConsentSettings = document.getElementsByClassName("cst_cookie_settings");
-        Array.from(openConsentSettings).forEach((e) => {
-          e.addEventListener("click", () => {
-            showBanner();
-          });
-        });
+        const openConsentSettings = document.querySelector(".cst_cookie_settings");
+        if (openConsentSettings) {
+          openConsentSettings.addEventListener("click", showBanner);
+        }
       }
     }
     function hideBanner() {
@@ -3775,21 +3783,23 @@
       });
       return purposeString;
     }
+    function getAllVendorsIds() {
+      let iabvendorids = vendors.filter((item) => item.iab_id !== null).map((item) => parseInt(item.iab_id));
+      if (iabvendorids == null)
+        iabvendorids = [];
+      return iabvendorids;
+    }
     function acceptAll() {
       for (const [key, value] of Object.entries(purposes)) {
         if (!purposesAllowed.includes(value.id)) {
           purposesAllowed.push(value.id);
         }
       }
-      if (vendors) {
-        for (const value of vendors) {
-          if (value.id != null && !vendorsAllowed.includes(value.id)) {
-            vendorsAllowed.push(value.id);
-          }
-        }
-      }
-      let iabvendorids = vendors.filter((item) => item.iab_id !== null && vendorsAllowed.includes(item.iab_id)).map((item) => item.iab_id);
-      tcModel.vendorConsents.set(iabvendorids);
+      vendorsAllowed = [];
+      vendors.forEach(function(v) {
+        vendorsAllowed.push(v.id);
+      });
+      tcModel.vendorConsents.set(getAllVendorsIds());
       tcModel.purposeConsents.set(purposesAllowed);
       let newTcString = createTcString();
       tcfCmpApi.update(newTcString, false);
@@ -3853,6 +3863,16 @@
       }
       if (consent_string.allowedVendors) {
         vendorsAllowed = consent_string.allowedVendors;
+        let iabs_allowed = [];
+        vendorsAllowed.forEach((v) => {
+          let vendor_obj = vendors.filter((ven) => ven.id != null && ven.id === v);
+          if (vendor_obj && vendor_obj[0].iab_id)
+            iabs_allowed.push(parseInt(vendor_obj[0].iab_id));
+        });
+        tcModel.vendorConsents.set(iabs_allowed);
+        tcModel.purposeConsents.set(purposesAllowed);
+        let newTcString = createTcString();
+        tcfCmpApi.update(newTcString, false);
       }
     }
     function getTcString() {
@@ -3864,15 +3884,16 @@
     }
     function addScripts() {
       vendorsAllowed.forEach((id) => {
-        let vendor_obj = vendors.find((v) => {
-          return v.id == id;
-        });
+        const vendor_obj = vendors.find((v) => v.id == id);
         if (vendor_obj && vendor_obj.script) {
-          document.head.innerHTML = document.head.innerHTML + vendor_obj.script;
+          console.log(vendor_obj.script);
+          const scriptElement = document.createElement("script");
+          scriptElement.textContent = vendor_obj.script;
+          document.head.appendChild(scriptElement);
         }
       });
     }
-    let analyticsURL = "http://localhost:8000/api/consents_api";
+    let analyticsURL = "https://consentflow.de/api/consents_api";
     function send_analytics(status) {
       fetch(analyticsURL, {
         method: "POST",
