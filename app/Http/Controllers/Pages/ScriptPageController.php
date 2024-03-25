@@ -56,6 +56,9 @@ class ScriptPageController extends Controller
                 $sg->generateScript();
                 $sg->getScript();
                 print_r($sg->getScript());
+
+
+                $consent_id=session()->get('ConsentId');
         
         
 

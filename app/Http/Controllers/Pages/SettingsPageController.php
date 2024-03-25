@@ -165,10 +165,10 @@ class SettingsPageController extends Controller
                'cookieMaxAgeSeconds' => $vendor->cookieMaxAgeSeconds,
            ]);
        }
-
+       $consent_id=$consent->id;
        $sg = new ScriptGenerator($vendorsNew, $settings);
        $sg->generateScript();
-       $sg->getScript();
+       $sg->saveScript($consent_id);
         
         
 
