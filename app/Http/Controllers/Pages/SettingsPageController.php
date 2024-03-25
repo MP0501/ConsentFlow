@@ -166,7 +166,7 @@ class SettingsPageController extends Controller
            ]);
        }
        $consent_id=$consent->id;
-       $sg = new ScriptGenerator($vendorsNew, $settings);
+       $sg = new ScriptGenerator($vendorsNew, $settings, $consent_id);
        $sg->generateScript();
        $sg->saveScript($consent_id);
         

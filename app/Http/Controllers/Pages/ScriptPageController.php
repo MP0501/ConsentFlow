@@ -51,14 +51,15 @@ class ScriptPageController extends Controller
         }
         ]
         ');     
+            $consent_id=session()->get('ConsentId');
+
                 $settings=array('imprint'=>'www.google.de');
-                $sg = new ScriptGenerator($vendors, $settings);
+                $sg = new ScriptGenerator($vendors, $settings, $consent_id);
                 $sg->generateScript();
                 $sg->getScript();
                 print_r($sg->getScript());
 
 
-                $consent_id=session()->get('ConsentId');
         
         
 
