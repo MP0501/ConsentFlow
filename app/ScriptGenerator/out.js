@@ -3478,18 +3478,11 @@
         }
 
         .cst_cookie_settings_container{
-            width: 100%;
-            height: 100%;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            position: absolute;
-            z-index: 999;
+            
         }
         
         .cst_cookie_settings_container .cst_cookie_settings{
-            position: fixed;
+            position: absolute;
             width: 50px;
             height: 50px;
             max-width: 10%;
@@ -3498,9 +3491,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            left: 3%;
-            bottom: 5%;
             cursor: pointer;
+            left: 3%;
+            bottom: 50px;
         }
         
         .cst_cookie_settings_container .cst_cookie_settings svg{
