@@ -354,15 +354,6 @@
                                                 </tr>
                                                 @endforeach
                                             </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Vendor Name</th>
-                                                    <th>Zweck</th>
-                                                    <th>policyURL</th>
-                                                    <th>Cookie bearbeiten</th>
-                                                    <th>Cookie entfernen</th>
-                                                </tr>
-                                            </tfoot>
                                         </table>
                                     </div>
                                    
