@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages;
 use App\Models\Consent_vendors;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Http;
 
 class CookieScannerController extends Controller
 {
@@ -144,4 +145,8 @@ class CookieScannerController extends Controller
         return redirect()->back()->with('error', 'Fehler beim Speichern des Consent Vendors.');
     }
 }
+public function startCookieScanner(Request $request)
+    {
+        $consent_id=session()->get('ConsentId');
+    }
 }
