@@ -68,7 +68,7 @@
 
                                     <div style="position: relative;">
     
-                                        <input class="border rounded form-control-user" type="text" id="consent_script" aria-describedby="emailHelp" value="{{ $scriptTag }}" name="url" style="margin-bottom: 16px;/*border-color: black!important;*/padding-left: 8px;width: 100%;padding-bottom: 177px;">
+                                        <input class="border rounded form-control-user" type="text" id="consent_script" aria-describedby="emailHelp" value="{{ $scriptTag }}" name="url" style="margin-bottom: 16px;/*border-color: black!important;*/padding-left: 8px;width: 100%;padding-bottom: 177px;" readonly>
                                         <button onclick="copyText()" class="btn btn-outline-primary" style="position: absolute; bottom: 30px; right: 10px; padding: 5px 10px; cursor: pointer;">Kopieren</button>                                      </div>
                                       
                                       <script>
