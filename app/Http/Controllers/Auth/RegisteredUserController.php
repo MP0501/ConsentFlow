@@ -57,8 +57,17 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
+        try {
         Auth::login($user);
         Mail::to($user->email)->send(new RegistrationMail($user));
+         } catch (\Exception $e) {
+
+        
+        $user->delete();
+        
+        return redirect()->back()->withErrors(['email' => 'Diese E-Mail existiert nicht']);
+        }
+
         return redirect(RouteServiceProvider::HOME);
     }
 }

@@ -55,12 +55,23 @@ class LicenseController extends Controller
         $total_price=$all_count*$unit_price;
         $net_amount= $total_price;
         $tax_amount=$total_price*0.19;
+        $gross_amount=$net_amount+$tax_amount;
+        $is_basic_amount=False;
+        $basic_amount=0.84;
+        if($gross_amount<1){
+            $is_basic_amount=True;
+            $net_amount= $basic_amount;
+            $tax_amount=$net_amount*0.19;
+            $gross_amount=$net_amount+$tax_amount;
+        }
     $data = [
+        'is_basic_amount'=>$is_basic_amount,
+        'basic_amount'=>$basic_amount,
         'unit_price' =>$unit_price,
         'total_price'=>$total_price,
         'net_amount'=> $net_amount,
         'tax_amount'=>$tax_amount,
-        'gross_amount'=>$net_amount+$tax_amount,
+        'gross_amount'=>$gross_amount,
         'invoice_number' => mt_rand(100000, 999999),
         'first_name' => $user->user_info()->first()->first_name,
         'last_name' => $user->user_info()->first()->last_name,

@@ -99,6 +99,13 @@
                         <td>€{{ number_format($unit_price, 2, ',', '.') }}</td>
                         <td>€{{ number_format($total_price, 2, ',', '.') }}</td>
                     </tr>
+                    <!-- Grundbetrag -->
+                    @if ($is_basic_amount) 
+                    <tr>
+                        <th colspan="4" class="text-right">Grundbetrag:</th>
+                        <td>€{{ number_format($basic_amount, 2, ',', '.') }}</td>
+                    </tr>
+                    @endif
                     <!-- Summe -->
                     <tr>
                         <th colspan="4" class="text-right">Nettobetrag:</th>
