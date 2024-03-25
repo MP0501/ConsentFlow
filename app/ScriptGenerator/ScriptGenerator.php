@@ -1,5 +1,6 @@
 <?php
-    namespace App\ScriptGenerator; 
+    namespace App\ScriptGenerator;
+
     class ScriptGenerator{
 
         private $vendors;
@@ -81,6 +82,7 @@
 
             
         }
+
 
         private function insertDefaultSettings($template){
             $defaultValues = [

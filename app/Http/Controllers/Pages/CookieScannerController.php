@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Pages;
 
+use App\Models\Consent;
 use App\Models\Consent_vendors;
+use App\ScriptGenerator\ScriptGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
@@ -101,6 +103,8 @@ class CookieScannerController extends Controller
             ]);
         }
 
+        $this->updateScript($consent);
+
         return redirect()->route('cookieScanner');
     }
 
@@ -114,6 +118,9 @@ class CookieScannerController extends Controller
         $vendor = $consents->vendors()->where('id', $vendor_id)->first();
 
         $vendor->delete();
+
+        $this->updateScript($consents);
+
         return redirect()->route('cookieScanner');
     }
 
@@ -147,6 +154,8 @@ class CookieScannerController extends Controller
                 'is_legitimate' => False,
                 'consent_vendor_id' => $consentVendor->id,
             ]);
+
+            $this->updateScript($consent);
 
             return redirect()->back()->with('success', 'Consent Vendor erfolgreich gespeichert.');
         } else {
@@ -217,11 +226,42 @@ class CookieScannerController extends Controller
                         ]);
                     }
                 }
+                
             }
         }
 
         curl_close($ch);
 
+        $this->updateScript($consent);
+
         return redirect()->back()->with('success', 'Consent Vendor erfolgreich gescannt.');
+    }
+
+    function updateScript(Consent $consent){
+        $consentSetting = $consent->settings()->get();
+        $settings = [];
+        foreach ($consentSetting as $setting) {
+            $settings[$setting->key] = $setting->value;
+        }
+
+
+        $vendors=$consent->vendors()->get();
+        
+        $vendorsNew = [];
+        foreach ($vendors as $vendor) {
+            array_push($vendorsNew,[
+                'id' => $vendor->id,
+                'iab_id' => $vendor->iab_id,
+                'name' => $vendor->name,
+                'purposes' => $vendor->purposes()->pluck('id')->toArray(),
+                'policyUrl' => $vendor->policy_url,
+                'cookieMaxAgeSeconds' => $vendor->cookieMaxAgeSeconds,
+            ]);
+        }
+
+        $consent_id=$consent->id;
+        $sg = new ScriptGenerator($vendorsNew, $settings, $consent_id);
+        $sg->generateScript();
+        $sg->saveScript($consent_id);
     }
 }
