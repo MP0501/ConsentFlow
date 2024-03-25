@@ -3353,7 +3353,7 @@
     return null;
   }
   var ConsentFlow = () => {
-    let generateDate = 1711370533;
+    let generateDate = 1711371064;
     let consentId = 11;
     let vendors = [];
     let vendorsAllowed = [];
@@ -3420,7 +3420,7 @@
       let cssText = `
         :root {
             --cst_banner_width: 500px;
-            --cst_banner_background: #B34A4A;
+            --cst_banner_background: #DE00FF;
             --cst_banner_overlap_color: rgb(0, 0, 0, 0);
             --cst_banner_border_radius: 20px;
             --cst_banner_border_color: transparent;
@@ -3869,7 +3869,7 @@
         let vendor_obj = vendors.find((v) => {
           return v.id == id;
         });
-        if (vendor_obj.hasOwnProperty("script")) {
+        if (vendor_obj && vendor_obj.script) {
           document.head.innerHTML = document.head.innerHTML + vendor_obj.script;
         }
       });

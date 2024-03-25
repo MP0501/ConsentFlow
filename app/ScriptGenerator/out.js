@@ -3869,7 +3869,7 @@
         let vendor_obj = vendors.find((v) => {
           return v.id == id;
         });
-        if (vendor_obj.hasOwnProperty("script")) {
+        if (vendor_obj && vendor_obj.script) {
           document.head.innerHTML = document.head.innerHTML + vendor_obj.script;
         }
       });
