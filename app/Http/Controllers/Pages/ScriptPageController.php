@@ -10,20 +10,19 @@ class ScriptPageController extends Controller
 {
     public function index(Request $request)
     {   
+        // Benutzerinformationen abrufen
         $user = $request->user();
         $user_info=$user->user_info()->first();
         $first_name=$user_info->first_name;
         $photo=$user_info->photo;
 
-        
+        // Consent-ID aus der Sitzung erhalten
         $consent_id=session()->get('ConsentId');
         error_log($consent_id);
         $consent_id=$user->consents()->where('id', $consent_id)->first()->id;
+
+        // Skript erstellen
         $scriptTag = '<script src="https://static.consentflow.de/consents/' . $consent_id . '"></script>';
-
-        
-        
-
         return view('script', ['first_name'=>$first_name,'photo' => $photo,'scriptTag'=>$scriptTag
     ]); 
     }

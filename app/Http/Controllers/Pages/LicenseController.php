@@ -124,25 +124,27 @@ class LicenseController extends Controller
         return $pdf->download('invoices.rechnung.pdf');
     }
 
-
+    // Funktion zur Aktualisierung der Benutzereinstellungen
     public function updateSettings_license(Request $request)
     {
+        // Benutzerinformationen abrufen
         $user = $request->user();
         $userInfo = $user->user_info()->first();
 
-        if ($userInfo) {
-            $userInfo->update([
-                'company_name' => $request->input('Unternehmensname'),
-                'first_name' => $request->input('first_name'),
-                'last_name' => $request->input('last_name'),
-            ]);
-        }
-
+        //Benutzerinformationen aktualisieren
+        $userInfo->update([
+            'company_name' => $request->input('Unternehmensname'),
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+        ]);
+    
         return redirect('/license')->with('success', 'Einstellungen erfolgreich aktualisiert!');
     }
 
+    // Funktion zur Aktualisierung der Adresse
     public function updateAdress(Request $request)
     {
+        //Benutzerinformationen abrufen
         $user = $request->user();
         $userInfo = $user->user_info()->first();
         if ($userInfo) {
@@ -156,20 +158,22 @@ class LicenseController extends Controller
         return redirect('/license')->with('success', 'Einstellungen erfolgreich aktualisiert!');
     }
 
+    // Funktion zum Aktualisieren des Benutzerfotos
     public function updatePhoto(Request $request)
     {
+        // Benutzerinformationen abrufen
         $user = $request->user();
         $userInfo = $user->user_info()->first();
 
+        // Überprüfen, ob ein Bild hochgeladen wurde und ob es gültig ist
         $request->validate([
             'photo' => 'required|image|mimes:jpeg,png|max:2048', // Maximale Dateigröße von 2 MB
         ]);
 
         if ($request->hasFile('photo')) {
             $photo = $request->file('photo');
-
             if ($photo->isValid()) {
-                // Speichere das Bild im Speicher
+                // Bild speichern 
                 $photoPath = $photo->store('photos', 'public');
                 if ($userInfo) {
                     $userInfo->update([
@@ -182,7 +186,6 @@ class LicenseController extends Controller
                 return redirect()->back()->with('error', 'Das hochgeladene Bild ist ungültig.');
             }
         }
-
         return redirect()->back()->with('error', 'Es wurde kein Bild hochgeladen.');
     }
 }

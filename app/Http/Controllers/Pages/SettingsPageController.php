@@ -12,6 +12,7 @@ use Illuminate\Routing\Controller;
 
 class SettingsPageController extends Controller
 {
+    // Standardwerte für Einstellungen
     protected $defaultValues = [
         'design_choice' => '1',
         'banner_background' => '#ffffff',
@@ -52,21 +53,22 @@ class SettingsPageController extends Controller
 
     public function index(Request $request)
     {
+        // Benutzerinformationen abrufen
         $user = $request->user();
         $user_info=$user->user_info()->first();
         $first_name=$user_info->first_name;
         $photo=$user_info->photo;
 
+        // Consent-ID aus der Sitzung erhalten
         $consent_id=session()->get('ConsentId');
         $consent=$user->consents()->where('id', $consent_id)->first();
-        
-        
-        
 
-
+        // Einstellungen für den aktuellen Consent abrufen
         $consentSetting=$consent->settings()->get();
         $keys = array_keys($this->defaultValues);
         $settings=[];
+
+        // Standardwerte verwenden, wenn keine Werte vorhanden sind
         foreach ($keys as $key) {
             $settingCurrent = $consentSetting->where('key', $key)->first();
             if ($settingCurrent) {
