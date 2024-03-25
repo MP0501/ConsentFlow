@@ -53,6 +53,8 @@ class CookieScannerController extends Controller
                 'policyURL' => $vendor->policy_url,
                 'purposes' => $purposeNames,
                 'purposes_id' => $purposes,
+                'iab_id' => $vendor->iab_id,
+                'cookieMaxAgeSeconds' => $vendor->cookieMaxAgeSeconds,
             ];
         }
 
@@ -71,6 +73,7 @@ class CookieScannerController extends Controller
         $name = $request->input('name');
         $vendor_id = $request->input('vendor_id_hidden');
         $iab_id = $request->input('iab_id');
+        $cookieMaxAgeSeconds = $request->input('cookieMaxAgeSeconds');
 
         $user = $request->user();
         $consent_id = session()->get('ConsentId');
@@ -81,7 +84,8 @@ class CookieScannerController extends Controller
             'policy_url' => $policy_url,
             'script_to_implement' => $script_to_implement,
             'name' => $name,
-            'iab_id' => $iab_id 
+            'iab_id' => $iab_id ,
+            'cookieMaxAgeSeconds' => $$cookieMaxAgeSeconds,
         ]);
 
         $new_purposes = [];
