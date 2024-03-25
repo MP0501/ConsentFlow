@@ -16,25 +16,25 @@ class ConsentId
      */
     public function handle(Request $request, Closure $next): Response
     {
-        
-        if($request->session()->has('ConsentId')){
-            $ConsentId=$request->session()->get('ConsentId');
-            $Consent=Consent::where('id', $ConsentId)->first();
-            if($Consent==null){
+        // Überprüfen, ob eine ConsentId schon in die Session gespeichert wurde
+        if ($request->session()->has('ConsentId')) {
+            $ConsentId = $request->session()->get('ConsentId');
+            $Consent = Consent::where('id', $ConsentId)->first();
+            if ($Consent == null) {
                 return redirect('/manageWebsite');
             }
-        } else{
-            $user=$request->user();
-            $Consent = $user->consents()->first(); 
-            if($Consent==null){
+        } else {
+            // Falls noch keine ConsentId gesetzt wurde leite immer wieder zur /manageWebsite zurück
+            $user = $request->user();
+            $Consent = $user->consents()->first();
+            if ($Consent == null) {
                 return redirect('/manageWebsite');
             }
+            // ConsentId in die Sitzung setzen
             $request->session()->put('ConsentId', $Consent->id);
         }
-        
-        
-        $request->attributes->add(['Consent'=>$Consent]);
+
+        $request->attributes->add(['Consent' => $Consent]);
         return $next($request);
     }
 }
-

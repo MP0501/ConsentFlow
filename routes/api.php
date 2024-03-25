@@ -18,7 +18,8 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return $request->user(); // Gibt den authentifizierten Benutzer zurück
 });
 
+//Gibt die Consent Id zurück
 Route::post('/consents_api', [ConsentController::class, 'store']);
