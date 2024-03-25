@@ -19,7 +19,7 @@ class ScriptPageController extends Controller
         $consent_id=session()->get('ConsentId');
         error_log($consent_id);
         $consent_id=$user->consents()->where('id', $consent_id)->first()->id;
-        $scriptTag = '<script src="http://static.consentflow.de/consents/' . $consent_id . '"></script>';
+        $scriptTag = '<script src="https://static.consentflow.de/consents/' . $consent_id . '"></script>';
 
         
         

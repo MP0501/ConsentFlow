@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Pages;
 
+use App\Models\Consent;
 use App\Models\Consent_vendors;
+use App\ScriptGenerator\ScriptGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
@@ -53,6 +55,8 @@ class CookieScannerController extends Controller
                 'policyURL' => $vendor->policy_url,
                 'purposes' => $purposeNames,
                 'purposes_id' => $purposes,
+                'iab_id' => $vendor->iab_id,
+                'cookieMaxAgeSeconds' => $vendor->cookieMaxAgeSeconds,
             ];
         }
 
@@ -71,6 +75,7 @@ class CookieScannerController extends Controller
         $name = $request->input('name');
         $vendor_id = $request->input('vendor_id_hidden');
         $iab_id = $request->input('iab_id');
+        $cookieMaxAgeSeconds = $request->input('cookieMaxAgeSeconds');
 
         $user = $request->user();
         $consent_id = session()->get('ConsentId');
@@ -81,7 +86,8 @@ class CookieScannerController extends Controller
             'policy_url' => $policy_url,
             'script_to_implement' => $script_to_implement,
             'name' => $name,
-            'iab_id' => $iab_id 
+            'iab_id' => $iab_id ,
+            'cookieMaxAgeSeconds' => $$cookieMaxAgeSeconds,
         ]);
 
         $new_purposes = [];
@@ -97,6 +103,8 @@ class CookieScannerController extends Controller
             ]);
         }
 
+        $this->updateScript($consent);
+
         return redirect()->route('cookieScanner');
     }
 
@@ -110,6 +118,9 @@ class CookieScannerController extends Controller
         $vendor = $consents->vendors()->where('id', $vendor_id)->first();
 
         $vendor->delete();
+
+        $this->updateScript($consents);
+
         return redirect()->route('cookieScanner');
     }
 
@@ -143,6 +154,8 @@ class CookieScannerController extends Controller
                 'is_legitimate' => False,
                 'consent_vendor_id' => $consentVendor->id,
             ]);
+
+            $this->updateScript($consent);
 
             return redirect()->back()->with('success', 'Consent Vendor erfolgreich gespeichert.');
         } else {
@@ -213,11 +226,42 @@ class CookieScannerController extends Controller
                         ]);
                     }
                 }
+                
             }
         }
 
         curl_close($ch);
 
+        $this->updateScript($consent);
+
         return redirect()->back()->with('success', 'Consent Vendor erfolgreich gescannt.');
+    }
+
+    function updateScript(Consent $consent){
+        $consentSetting = $consent->settings()->get();
+        $settings = [];
+        foreach ($consentSetting as $setting) {
+            $settings[$setting->key] = $setting->value;
+        }
+
+
+        $vendors=$consent->vendors()->get();
+        
+        $vendorsNew = [];
+        foreach ($vendors as $vendor) {
+            array_push($vendorsNew,[
+                'id' => $vendor->id,
+                'iab_id' => $vendor->iab_id,
+                'name' => $vendor->name,
+                'purposes' => $vendor->purposes()->pluck('id')->toArray(),
+                'policyUrl' => $vendor->policy_url,
+                'cookieMaxAgeSeconds' => $vendor->cookieMaxAgeSeconds,
+            ]);
+        }
+
+        $consent_id=$consent->id;
+        $sg = new ScriptGenerator($vendorsNew, $settings, $consent_id);
+        $sg->generateScript();
+        $sg->saveScript($consent_id);
     }
 }

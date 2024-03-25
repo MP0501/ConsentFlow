@@ -197,11 +197,15 @@
                     </div>
                     <div class="form-group">
                         <label for="script_to_implement">Script to implement</label>
-                        <input type="text" class="form-control" id="script_to_implement" name="script_to_implement" >
+                        <input type="text" class="form-control" id="iab_id" name="iab_id" >
                     </div>
                     <div class="form-group">
                         <label for="script_to_implement">Vendor IAB Id</label>
-                        <input type="text" class="form-control" id="iab_id" name="script_to_implement" >
+                        <input type="text" class="form-control" id="script_to_implement" name="script_to_implement" >
+                    </div>
+                    <div class="form-group">
+                        <label for="script_to_implement">Cookie Laufzeit</label>
+                        <input type="text" class="form-control" id="cookieMaxAgeSeconds" name="cookieMaxAgeSeconds" >
                     </div>
                     <div class="form-group">
                         <label for="vendor_policyURL">policyURL</label>

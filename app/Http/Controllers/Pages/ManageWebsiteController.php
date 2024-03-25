@@ -31,35 +31,6 @@ class ManageWebsiteController extends Controller
             if ($userId == $request->user()->id) {
                 $request->session()->put('ConsentId', $consentId);
                 $consentId = session()->get('ConsentId');
-
-
-                #Skript generieren
-                $user = $request->user();
-                $consent = $user->consents()->where('id', $consentId)->first();
-                $consentSetting = $consent->settings()->get();
-                $settings = [];
-                foreach ($consentSetting as $setting) {
-                    $settings[$setting->key] = $setting->value;
-                }
-
-
-                $vendors = $consent->vendors()->get();
-
-                $vendorsNew = [];
-                foreach ($vendors as $vendor) {
-                    array_push($vendorsNew, [
-                        'id' => $vendor->id,
-                        'iab_id' => $vendor->iab_id,
-                        'name' => $vendor->name,
-                        'purposes' => $vendor->purposes()->pluck('id')->toArray(),
-                        'policyUrl' => $vendor->policy_url,
-                        'cookieMaxAgeSeconds' => $vendor->cookieMaxAgeSeconds,
-                    ]);
-                }
-
-                $sg = new ScriptGenerator($vendorsNew, $settings, $consentId);
-                $sg->generateScript();
-                $sg->getScript();
                 return redirect('/manageWebsite');
             } else {
                 return redirect('/manageWebsite');
