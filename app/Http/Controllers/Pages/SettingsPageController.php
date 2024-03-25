@@ -172,7 +172,7 @@ class SettingsPageController extends Controller
         
         
 
-        #return back()->with('success', 'Designeinstellung erfolgreich gespeichert.');
+        return back()->with('success', 'Designeinstellung erfolgreich gespeichert.');
     }
 
     public function defaultSettings(Request $request)

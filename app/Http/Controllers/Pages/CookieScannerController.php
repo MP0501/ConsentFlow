@@ -166,35 +166,35 @@ class CookieScannerController extends Controller
 
         $response = curl_exec($ch);
         
-        $cookies = json_decode($response, true);
-
-        var_dump($cookies["cookies"][0]["purposes"]);
-        
-        foreach($cookies["cookies"] as $c){
-            $name = array_key_exists("name",$c) ? $c["name"] : "";
-            $urls = array_key_exists("urls",$c) ? $c["urls"] : "";
-            if(count($urls)>0){
-                $policy_url = $urls[0]["privacy"];
-            }
-            $iab_id = array_key_exists("id",$c) ? $c["id"] : null;
-            $cookieMaxAgeSeconds = array_key_exists("cookieMaxAgeSeconds",$c) ? $c["cookieMaxAgeSeconds"] : null;
-
-            $purposes = array_key_exists("purposes",$c) ?  $c["purposes"] : array();
-
-            $consentVendor = $consent->vendors()->create([
-                'name' => $name ,
-                'script_to_implement' => "",
-                'policy_url' => $policy_url,
-                'iab_id' => $iab_id, 
-                'cookieMaxAgeSeconds' => $cookieMaxAgeSeconds
-            ]);
+        if(curl_getinfo($ch, CURLINFO_HTTP_CODE) == 200){
+            $cookies = json_decode($response, true);
             
-            foreach($purposes as $p){
-                $consentVendor->purposes()->create([
-                    'purpose_id' => $p,
-                    'is_legitimate' => False,
-                    'consent_vendor_id' => $consentVendor->id,
+            foreach($cookies["cookies"] as $c){
+                $name = array_key_exists("name",$c) ? $c["name"] : "";
+                $urls = array_key_exists("urls",$c) ? $c["urls"] : "";
+                if(count($urls)>0){
+                    $policy_url = $urls[0]["privacy"];
+                }
+                $iab_id = array_key_exists("id",$c) ? $c["id"] : null;
+                $cookieMaxAgeSeconds = array_key_exists("cookieMaxAgeSeconds",$c) ? $c["cookieMaxAgeSeconds"] : null;
+
+                $purposes = array_key_exists("purposes",$c) ?  $c["purposes"] : array();
+
+                $consentVendor = $consent->vendors()->create([
+                    'name' => $name ,
+                    'script_to_implement' => "",
+                    'policy_url' => $policy_url,
+                    'iab_id' => $iab_id, 
+                    'cookieMaxAgeSeconds' => $cookieMaxAgeSeconds
                 ]);
+                
+                foreach($purposes as $p){
+                    $consentVendor->purposes()->create([
+                        'purpose_id' => $p,
+                        'is_legitimate' => False,
+                        'consent_vendor_id' => $consentVendor->id,
+                    ]);
+                }
             }
         }
 

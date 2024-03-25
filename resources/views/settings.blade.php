@@ -215,22 +215,6 @@ textInput.addEventListener('input', function() {
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td style="width: 154.516px;">Höhe</td>
-                                                    <td style="width: 258.641px;">
-                                                        <input class="border rounded input_design" type="text" name=banner_max_height id=banner_max_height value="{{ $settings['banner_max_height'] }}">
-                                                        @error('banner_max_height')<span class="text-danger">{{ $message }}</span>@enderror
-                                                    </td>
-                                                    <td>px</td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Breite</td>
-                                                    <td style="width: 258.641px;">
-                                                        <input class="border rounded input_design" type="text" name=banner_width id=banner_width value="{{ $settings['banner_width'] }}">
-                                                        @error('banner_width')<span class="text-danger">{{ $message }}</span>@enderror
-                                                    </td>
-                                                    <td>px</td>
-                                                </tr>
-                                                <tr>
                                                     <td style="width: 154.516px;">Hintergrundfarbe</td>
                                                     <td style="width: 258.641px;">
                                                         <input  class="border rounded input_design" type="text" id="banner_background" name="banner_background" value="{{ $settings['banner_background'] }}" readonly>
@@ -698,14 +682,6 @@ textInput.addEventListener('input', function() {
                                                     <td style="width: 258.641px;">
                                                         <input class="border rounded input_design" type="text" name=icon id=icon value="{{ $settings['icon'] }}">
                                                         @error('icon')<span class="text-danger">{{ $message }}</span>@enderror
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="width: 154.516px;">Einstellungs Icon</td>
-                                                    <td style="width: 258.641px;">
-                                                        <input class="border rounded input_design" type="text" name=setting_icon id=setting_icon value="{{ $settings['setting_icon'] }}">
-                                                        @error('setting_icon')<span class="text-danger">{{ $message }}</span>@enderror
                                                     </td>
                                                     <td></td>
                                                 </tr>
