@@ -6,7 +6,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Table - ConsentFlow</title>
+    <title>Skript erstellen - ConsentFlow</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
@@ -63,33 +63,31 @@
                                     <h6 class="text-primary fw-bold m-0">Skript erstellen</h6>
                                 </div>
                                 <div class="card-body">
-                                    <p>Der Cookie Scanner findet automatisiert alle Cookies die auf deiner Website verwendet werden.</p>
+                                    <p>Um den ConsentFlow Cookie-Banner auf deiner Website zu nutzen, kopiere bitte das folgende Skript und füge es in den head-Bereich deiner Website ein:</p>
                                     <!DOCTYPE html>
 
                                     <div style="position: relative;">
     
-                                        <input class="border rounded form-control-user" type="text" id="exampleInputEmail-1" aria-describedby="emailHelp" value="{{ $scriptTag }}" name="url" style="margin-bottom: 16px;/*border-color: black!important;*/padding-left: 8px;width: 100%;padding-bottom: 177px;">
-                                        <button onclick="copyText()" class="btn btn-outline-primary" style="position: absolute; top: 10px; right: 10px; padding: 5px 10px; cursor: pointer;">Kopieren</button>
-                                      </div>
+                                        <input class="border rounded form-control-user" type="text" id="consent_script" aria-describedby="emailHelp" value="{{ $scriptTag }}" name="url" style="margin-bottom: 16px;/*border-color: black!important;*/padding-left: 8px;width: 100%;padding-bottom: 177px;">
+                                        <button onclick="copyText()" class="btn btn-outline-primary" style="position: absolute; bottom: 30px; right: 10px; padding: 5px 10px; cursor: pointer;">Kopieren</button>                                      </div>
                                       
                                       <script>
                                         function copyText() {
-                                          var input = document.getElementById("exampleInputEmail-1");
-                                          input.select();
-                                          document.execCommand("Kopieren");
-                                          alert("Skript in die Zwischenablage kopiert!");
+                                            var input = document.getElementById("consent_script");
+                                            input.select();
+                                            document.execCommand("copy");
+                                            alert("Skript wurde erfolgreich kopiert!");
                                         }
-                                      </script>
-                                    
-                                    
-                                    <div class="card text-white bg-primary border-0"></div><button class="btn btn-primary" type="button">Skript generieren</button>
+                                    </script>
+                    
                                 </div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="card shadow">
                                 <div class="card-header py-3">
-                                    <p class="text-primary m-0 fw-bold">Wo füge ich das Skript ein</p>
+                                    <p class="text-primary m-0 fw-bold">Skriptplatzierung für ConsentFlow</p>
+                                    
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
@@ -97,13 +95,17 @@
                                             <thead>
                                                 <tr></tr>
                                             </thead>
-                                            <tbody></tbody>
+                                            <tbody>
+                                                <p>Damit kannst du den ConsentFlow Cookie-Banner problemlos verwenden. Stell sicher, dass du das Skript oben im head-Bereich platzierst, damit es vor anderen Skripten geladen wird und ordnungsgemäß funktioniert.</p>
+                                                <img src="assets/img/register_anleitung.png">
+
+                                            </tbody>
                                             <tfoot>
                                                 <tr></tr>
                                             </tfoot>
                                         </table>
                                     </div>
-                                    <p>Grafik von wo wir das einfpgen</p>
+                                    
                                 </div>
                             </div>
                         </div>

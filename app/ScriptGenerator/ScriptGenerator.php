@@ -38,8 +38,6 @@
             $ACCESS_KEY = '74002f5d-973a-4cfb-bd390de1fd65-a7c7-47be';
             $FILE_PATH = base_path()."/consents/".$this->consent_id;  // Full path to your local file
 
-            print_r($FILE_PATH);
-
             $url = "https://{$HOSTNAME}/{$STORAGE_ZONE_NAME}/{$FILENAME_TO_UPLOAD}";
 
             $ch = curl_init();
