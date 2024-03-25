@@ -84,8 +84,12 @@
                                 <input class="border rounded" type="text" name="policy_url" style="border-width: 2px!important;width: 240px;" required />
                             </td>
                         </tr>
-            
-                    
+                        <tr>
+                            <td style="width: 154.516px;">IAB Vendor ID</td>
+                            <td style="width: 258.641px;">
+                                <input class="border rounded" type="text" name="vendor_id" style="border-width: 2px!important;width: 240px;" />
+                            </td>
+                        </tr>
                 </tbody>
                 <tfoot>
                     <tr></tr>

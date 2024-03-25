@@ -121,6 +121,7 @@ class CookieScannerController extends Controller
         'purpose' => 'required',
         'vendor_script' => 'required',
         'policy_url' => 'required',
+        'vendor_id' => 'nullable',
     ]);
 
     $consentId = session()->get('ConsentId');
@@ -132,6 +133,7 @@ class CookieScannerController extends Controller
             'name' => $validatedData['vendor_name'],
             'script_to_implement' => $validatedData['vendor_script'],
             'policy_url' => $validatedData['policy_url'],
+            'iab_id' => $validatedData['vendor_id'],
         ]);
 
         $consentVendor->purposes()->create([
