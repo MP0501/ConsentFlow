@@ -74,6 +74,8 @@
 
             $response = curl_exec($ch);
 
+            unlink(base_path()."/consents/".$this->consent_id);
+
             if (!$response) {
                 return false;
             } else {
