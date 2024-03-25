@@ -16,7 +16,7 @@
     "esbuild": "^0.20.0"
   },
   "scripts": {
-    "build": "esbuild src/index.js --bundle --outfile=out.js",
-    "build2": "esbuild src/index.js --bundle --outfile=out.js --minify"
+    "build": "esbuild src/index.js --bundle --outfile=lib/out.js",
+    "build2": "esbuild src/index.js --bundle --outfile=lib/out.js --minify"
   }
 }

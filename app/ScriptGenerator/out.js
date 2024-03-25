@@ -3866,7 +3866,7 @@
         let iabs_allowed = [];
         vendorsAllowed.forEach((v) => {
           let vendor_obj = vendors.filter((ven) => ven.id != null && ven.id === v);
-          if (vendor_obj && vendor_obj[0].iab_id)
+          if (vendor_obj != null && vendor_obj[0] != null && vendor_obj[0].iab_id)
             iabs_allowed.push(parseInt(vendor_obj[0].iab_id));
         });
         tcModel.vendorConsents.set(iabs_allowed);

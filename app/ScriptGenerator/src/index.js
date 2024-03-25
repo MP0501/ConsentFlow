@@ -2,12 +2,15 @@ import{CmpApi}from"@iabtcf/cmpapi";
 import{TCModel,TCString,GVL,Segment}from"@iabtcf/core";
 const cmpstub = require('@iabtcf/stub');
 
+//Aktivieren der cmpstub Function (window__tcapi())
 cmpstub();
 
+//Erstellen des aktuellen Unix Dates
 function getUnixDate(){
     return new Date().getTime();
 }
 
+//Cookie speichern
 function setCookieValue(key, val){
     const d = new Date();
     d.setTime(d.getTime() + (30*24*60*60*1000));
@@ -18,6 +21,7 @@ function setCookieValue(key, val){
     document.cookie = key + "=" +JSON.stringify(val);
 }
 
+//Cookie Wert abrufen
 function getCookieValue(kea){
     let name = kea + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
@@ -34,9 +38,14 @@ function getCookieValue(kea){
     return null;
 }
 
-
+/*
+    CookieBlocker:
+    Entfernet alle Tracker und Links zu externen Websites
+    (aktuell deaktiviert)
+*/
 let CookieBlocker = () => {
 
+    //Ist die Url die des Hosts
     function isSameSite(url){
         const site = window.location.origin;
         if (url.startsWith('/') || url.startsWith('./')) {
@@ -48,6 +57,7 @@ let CookieBlocker = () => {
         }
     }
 
+    //Wurde dem Cookie zugestimmt
     function isAllowed(element){
         if(element != null){
             if(element.hasAttribute("cookie_status")){
@@ -106,6 +116,11 @@ let CookieBlocker = () => {
     })
 }
 
+/*
+    ConsentFlow
+    Diese Function ist für sämtliche Consent Funktion zuständig.
+    Sie implentiert die tcfapi, die Funktionalität des Zustimmens und fügt das Consent auf der Website ein
+*/
 let ConsentFlow = () => {
 
     let generateDate = "insert_date";
@@ -113,33 +128,43 @@ let ConsentFlow = () => {
     let vendors = "insert_vendors"
 
     let vendorsAllowed = []
+    let iabVendorsAllowed = []
 
     let purposes = {}
 
     let purposesAllowed = []
 
+    //GVL enthält alle Vendors, die von IAB registriert wurden
     GVL.baseUrl  = "https://static.consentflow.de/"
     let gvl_obj = new GVL();
     let cloed_gvl = gvl_obj.clone();
+
+    //TCModel erstellt den TCString
     let tcModel = new TCModel(gvl_obj);
     tcModel.cmpId = 99;
     tcModel.cmpVersion = 2;
     tcModel.consentScreen = 1;
     tcModel.isServiceSpecific = true;
     tcModel.UseNonStandardStacks = 0;
+
+    //CmpApi implementiert die __tcapi
     const tcfCmpApi = new CmpApi(tcModel.cmpId, tcModel.cmpVersion, tcModel.isServiceSpecific);
 
-
+    //Wurde GVL geladen wird diese Funktion ausgeführt
     tcModel.gvl.readyPromise.then(() => {    
         let allVendors = tcModel.gvl.getJson().vendors;
         let allePurposes = tcModel.gvl.getJson().purposes;
         purposes = allePurposes
 
         if(!vendors) vendors = []
+
+        //Legt die Vendors in GVL auf die von uns im Admin Panel definierten fest
+        gvl_obj.narrowVendorsTo(getAllVendorsIds())
         
         if(!consentStatus()){
              showBanner();
         }else{
+            //Wurde das Consent bereits in der Vergangenheit ausgeführt werden die Einstellungen geladen
             tcfCmpApi.update(getTcString(),false)
             loadPreferences();
             addScripts();
@@ -147,13 +172,14 @@ let ConsentFlow = () => {
         }
     });
 
-    
+    //Erstellen eines TC Strings
     function createTcString(){
         if(tcModel){
             return TCString.encode(tcModel)
         }
     }
 
+    //Erstellt das Cookie Consent und fügt es auf der Website ein
     function showBanner(){
         tcfCmpApi.update("", true);
 
@@ -191,7 +217,7 @@ let ConsentFlow = () => {
                                 '<div class="cst_reason_container">'+
                                     '<div class="cst_reason_info">'+
                                         '<h5 class="cst_reason_h">Erforderlich</h5>'+
-                                        '<p class="cst_reason_p">Die technische Speicherung oder der Zugang ist unbedingt erforderlich für den rechtmäßigen Zweck, die Nutzung eines bestimmten Dienstes zu ermöglichen, der vom Teilnehmer oder Nutzer ausdrücklich gewünscht wird, oder für den alleinigen Zweck, die Übertragung einer Nachricht über ein elektronisches Kommunikationsnetz durchzuführen.</p>'+
+                                        '<p class="cst_reason_p">The technical storage or access is strictly necessary for the legitimate purpose of enabling the use of a specific service explicitly requested by the subscriber or user, or for the sole purpose of carrying out the transmission of a communication over an electronic communications network.</p>'+
                                     '</div>'+
                                 '</div>'+
                                 '<a class="cst_link" id="cst_vendor_settings">%vendor_settings%</a>'+
@@ -230,11 +256,6 @@ let ConsentFlow = () => {
                         '</div>'+
                     '</div>'+
                 '</div>'+
-            '    <a class="cst_cookie_settings">'
-            '        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-fill-check" viewBox="0 0 16 16">'
-            '            <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m2.146 5.146a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793z"/>'
-            '        </svg>'
-            '    </a>'
             '</div>';
 
         let purposeText = "";
@@ -287,12 +308,13 @@ let ConsentFlow = () => {
         }
     }
 
+    //Erstellen der CSS Klassen und anschließend einfügen der CSS Klassen im Website head
     function insertCssClasses(){
         let cssText = `
         :root {
             --cst_banner_width: %banner_width%px;
             --cst_banner_background: %banner_background%;
-            --cst_banner_overlap_color: rgb(0, 0, 0, 0);
+            --cst_banner_overlap_color: rgb(0, 0, 0, 0.2);
             --cst_banner_border_radius: %banner_border_radius%px;
             --cst_banner_border_color: transparent;
             --cst_banner_border_width:  0px;
@@ -442,6 +464,7 @@ let ConsentFlow = () => {
             justify-content: center;
             flex-wrap: wrap;
             width: 100%;
+            cursor: pointer;
         }
         
         .cst_container .cst_banner .cst_body .cst_button_wrap .cst_reject{
@@ -616,41 +639,45 @@ let ConsentFlow = () => {
           }        
         `
 
-        document.head.innerHTML = document.head.innerHTML + "<style>"+cssText+"</style>"
-
+        let style = document.createElement('style');
+        style.textContent = cssText
+        style.name = "ConsentFlowStyles"
+        let head = document.head || document.getElementsByTagName('head')[0];
+        head.appendChild(style);
     }
 
+    //Fügt am Bottom der Website ein Icon ein, mit welchem die Zustimmung erneut aufgerufen werden kann
     function insertSettingIcon(){
+        const consentText = document.createElement('div');
+        consentText.classList.add('cst_cookie_settings_container');
+        consentText.innerHTML = `
+            <a class="cst_cookie_settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-fill-check" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m2.146 5.146a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793z"/>
+                </svg>
+            </a>`;
 
-        let body = document.getElementsByTagName("body")
+        const body = document.querySelector('body');
 
-        let consentText = '<div class="cst_cookie_settings_container">'+
-      '    <a class="cst_cookie_settings">'+
-      '        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shield-fill-check" viewBox="0 0 16 16">'+
-      '            <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m2.146 5.146a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793z"/>'+
-      "        </svg>"+
-      "    </a>"+
-      "</div>";
-
-        if(body.length >= 1){
-            body[0].innerHTML = consentText + body[0].innerHTML;
-            insertCssClasses()
-            let openConsentSettings = document.getElementsByClassName("cst_cookie_settings")
-            Array.from(openConsentSettings).forEach(e => {
-                e.addEventListener("click", () => {
-                    showBanner();
-                })
-            })
+        if (body) {
+            body.insertBefore(consentText, body.firstChild);
+            insertCssClasses();
+             const openConsentSettings = document.querySelector('.cst_cookie_settings');
+            if (openConsentSettings) {
+                openConsentSettings.addEventListener('click', showBanner);
+            }
         }
     }
 
+    //Nach der Zustimmung wird der Banner entfernt
     function hideBanner(){
-        let cookiebanners = document.getElementsByClassName("cst_banner")
+        let cookiebanners = document.getElementsByClassName("cst_container")
         Array.from(cookiebanners).forEach( e => e.remove());
         insertSettingIcon();
 
     }
 
+    //Für das Consent werden alle Purposes benötigt. Übergeben wird ein Array mit den Ids der Purposes und zurückgegeben wird ein String welcher alle Namen der Purposes enthält
     function getPurposenames(inputPurpose){
         let purposeString = "";
         inputPurpose.forEach(p => {
@@ -664,23 +691,27 @@ let ConsentFlow = () => {
         return purposeString;
     }
 
+    //Gibt alle Ids der Vendors zurück
+    function getAllVendorsIds(){
+        let iabvendorids = vendors.filter((item) => item.iab_id !== null).map((item) => parseInt(item.iab_id));
+        if(iabvendorids==null) iabvendorids = []
+        return iabvendorids
+    }
+
+    //Allen Cookies zustimmen
     function acceptAll(){
         for (const [key, value] of Object.entries(purposes)) {
             if(!purposesAllowed.includes(value.id)){
                 purposesAllowed.push(value.id)
             }
         }
-        if(vendors){
-            for (const value of vendors) {
-                if(value.id != null && !vendorsAllowed.includes(value.id)){
-                    vendorsAllowed.push(value.id)
-                }
-            }
-        }
+        
+        vendorsAllowed = []
+        vendors.forEach(function(v) {
+            vendorsAllowed.push(v.id);
+        });
 
-        let iabvendorids = vendors.filter((item) => item.iab_id !== null && vendorsAllowed.includes(item.iab_id)).map((item) => item.iab_id);
-
-        tcModel.vendorConsents.set(iabvendorids);        
+        tcModel.vendorConsents.set(getAllVendorsIds());        
         tcModel.purposeConsents.set(purposesAllowed);
 
         let newTcString = createTcString()
@@ -695,6 +726,7 @@ let ConsentFlow = () => {
         send_analytics(1)
     }
 
+    //Alle Cookies ablehnen
     function rejectAll(){
         purposesAllowed = []
         vendorsAllowed = []
@@ -714,6 +746,7 @@ let ConsentFlow = () => {
         send_analytics(0)
     }
 
+    //Wird der Switch einer Präferenz betätigt wird diese Funktion getriggert
     function togglePreference(value_type, value_number){
         if(value_type.toLowerCase() == "vendor"){
             if(!vendorsAllowed.includes(parseInt(value_number))){
@@ -727,6 +760,7 @@ let ConsentFlow = () => {
     }
 
 
+    //Speichert die Präferenzen des Users
     function saveSettings(){
         let iabvendorids = vendors.filter((item) => item.iab_id !== null && vendorsAllowed.includes(item.iab_id)).map((item) => item.iab_id);
 
@@ -744,6 +778,7 @@ let ConsentFlow = () => {
         send_analytics(3)
     }
 
+    //Wurde das Cookie bereits ausgeführt
     function consentStatus(){
         let consent_string = getCookieValue("cst_consent");
 
@@ -755,6 +790,7 @@ let ConsentFlow = () => {
         }
     }
 
+    //Läd bereits gespeicherte Präferenzen aus dem Consent Cookie und läd diese
     function loadPreferences(){
         let consent_string = getCookieValue("cst_consent");
 
@@ -764,9 +800,22 @@ let ConsentFlow = () => {
 
         if(consent_string.allowedVendors){
             vendorsAllowed = consent_string.allowedVendors
+
+            let iabs_allowed = []
+            vendorsAllowed.forEach( v => {
+                let vendor_obj = vendors.filter(ven => ven.id != null && ven.id === v )
+                if(vendor_obj != null && vendor_obj[0] != null && vendor_obj[0].iab_id) iabs_allowed.push(parseInt(vendor_obj[0].iab_id))
+            })
+
+            tcModel.vendorConsents.set(iabs_allowed);        
+            tcModel.purposeConsents.set(purposesAllowed);
+
+            let newTcString = createTcString()
+            tcfCmpApi.update(newTcString, false)
         }
     }
 
+    //Gibt den im Cookie stehenden TC String zurück
     function getTcString(){
         let tcfstring = getCookieValue("cf_tcf_string");
 
@@ -776,28 +825,32 @@ let ConsentFlow = () => {
         return ""
     }
 
-    function addScripts(){
-        vendorsAllowed.forEach( id => {
-            let vendor_obj = vendors.find( v => {
-                return v.id == id
-            })
-
-            if(vendor_obj.script){
-                document.head.innerHTML = document.head.innerHTML + vendor_obj.script
+    //Fügt alle Scripts der Cookies hinzu
+    function addScripts() {
+        vendorsAllowed.forEach(id => {
+            const vendor_obj = vendors.find(v => v.id == id);
+    
+            if (vendor_obj && vendor_obj.script) {
+                console.log(vendor_obj.script)
+                const scriptElement = document.createElement('script');
+                scriptElement.textContent = vendor_obj.script;
+                document.head.appendChild(scriptElement);
             }
-        })
+        });
     }
     
-
-    let analyticsURL = "https://consentflow.de"
-    async function send_analytics(status){
-        const response = await fetch(analyticsURL, {
+    //Schickt Analyse Daten an das Admin Panel
+    let analyticsURL = "https://consentflow.de/api/consents_api"
+    function send_analytics(status){
+        fetch(analyticsURL, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({consent_id: consentId, accept_value: status})
+        }).then((res)=>{
+
         })
     }
 
@@ -891,6 +944,7 @@ document.addEventListener('readystatechange', event => {
     if (event.target.readyState === "interactive") {
         //let blocker = CookieBlocker();
     }   
+    //Wurde die Website geladen wird das Consent eingefügt
     if (event.target.readyState === "complete") {
         let consent = ConsentFlow();
     }
