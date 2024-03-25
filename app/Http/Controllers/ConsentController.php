@@ -99,5 +99,7 @@ class ConsentController extends Controller
         $sg = new ScriptGenerator($vendorsNew, $settings, $consent_id);
         $sg->generateScript();
         $sg->saveScript($consent_id);
+
+        return redirect('/manageWebsite')->with('success', 'Website erfolgreich hinzugefügt.');
     }
 }

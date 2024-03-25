@@ -29,8 +29,8 @@
             file_put_contents("./test.js", $this->script);
         }
         public function saveScript(){
-            file_put_contents("../consents/".$this->consent_id, $this->script);
-
+            file_put_contents("./consents/".$this->consent_id, $this->script);
+            /*
             $REGION = '';
             $BASE_HOSTNAME = 'storage.bunnycdn.com';
             $HOSTNAME = (!empty($REGION)) ? "{$REGION}.{$BASE_HOSTNAME}" : $BASE_HOSTNAME;
@@ -81,7 +81,7 @@
             } else {
                 return true;
             }
-
+            */
             
         }
 
