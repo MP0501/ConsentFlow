@@ -24,7 +24,7 @@
 'size'                 => [
 'numeric' => ':attribute muss :size groß sein.',
 'file'    => ':attribute muss :size Kilobytes groß sein.',
-'string'  => ':attribute muss :size Zeichen lang sein.',
+'string'  => ':attribute muss :siz  e Zeichen lang sein.',
 'array'   => ':attribute muss :size Einträge enthalten.',
 ],
 'string'               => ':attribute muss Text sein.',

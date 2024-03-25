@@ -12,40 +12,42 @@ class ManageWebsiteController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $user_info=$user->user_info()->first();
-        $first_name=$user_info->first_name;
-        $photo=$user_info->photo;
+        $user_info = $user->user_info()->first();
+        $first_name = $user_info->first_name;
+        $photo = $user_info->photo;
 
-        $consents=$user->consents()->get();
-        return view('manageWebsite', ['consents' => $consents,
-        'first_name'=>$first_name,'photo' => $photo,
-    ]); 
+        $consents = $user->consents()->get();
+        return view('manageWebsite', [
+            'consents' => $consents,
+            'first_name' => $first_name, 'photo' => $photo,
+        ]);
     }
-    public function setConsentId(Request $request){
-        $consentId=$request->consentId;
-        $Consent=Consent::where('id', $consentId)->first();
-        if($Consent!=null){
-            $userId=$Consent->user->id;
-            if($userId==$request->user()->id){
-                $request->session()->put('ConsentId',$consentId);
+    public function setConsentId(Request $request)
+    {
+        $consentId = $request->consentId;
+        $Consent = Consent::where('id', $consentId)->first();
+        if ($Consent != null) {
+            $userId = $Consent->user->id;
+            if ($userId == $request->user()->id) {
+                $request->session()->put('ConsentId', $consentId);
                 $consentId = session()->get('ConsentId');
 
 
                 #Skript generieren
                 $user = $request->user();
-                $consent=$user->consents()->where('id', $consentId)->first();
+                $consent = $user->consents()->where('id', $consentId)->first();
                 $consentSetting = $consent->settings()->get();
                 $settings = [];
                 foreach ($consentSetting as $setting) {
                     $settings[$setting->key] = $setting->value;
                 }
-        
-        
-                $vendors=$consent->vendors()->get();
-                
+
+
+                $vendors = $consent->vendors()->get();
+
                 $vendorsNew = [];
                 foreach ($vendors as $vendor) {
-                    array_push($vendorsNew,[
+                    array_push($vendorsNew, [
                         'id' => $vendor->id,
                         'iab_id' => $vendor->iab_id,
                         'name' => $vendor->name,
@@ -54,17 +56,14 @@ class ManageWebsiteController extends Controller
                         'cookieMaxAgeSeconds' => $vendor->cookieMaxAgeSeconds,
                     ]);
                 }
-        
+
                 $sg = new ScriptGenerator($vendorsNew, $settings);
                 $sg->generateScript();
                 $sg->getScript();
                 return redirect('/manageWebsite');
-            }else{
+            } else {
                 return redirect('/manageWebsite');
             }
         }
-
-    
     }
-
 }

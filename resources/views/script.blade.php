@@ -63,7 +63,24 @@
                                     <h6 class="text-primary fw-bold m-0">Skript erstellen</h6>
                                 </div>
                                 <div class="card-body">
-                                    <p>Der Cookie Scanner findet automatisiert alle Cookies die auf deiner Website verwendet werden.</p><input class="border rounded form-control-user" type="email" id="exampleInputEmail-1" aria-describedby="emailHelp" placeholder="Website URL" name="url" style="margin-bottom: 16px;/*border-color: black!important;*/padding-left: 8px;width: 100%;padding-bottom: 177px;">
+                                    <p>Der Cookie Scanner findet automatisiert alle Cookies die auf deiner Website verwendet werden.</p>
+                                    <!DOCTYPE html>
+
+                                    <div style="position: relative;">
+                                        <input class="border rounded form-control-user" type="email" id="exampleInputEmail-1" aria-describedby="emailHelp" placeholder="Website URL" name="url" style="margin-bottom: 16px;/*border-color: black!important;*/padding-left: 8px;width: 100%;padding-bottom: 177px;">
+                                        <button onclick="copyText()" class="btn btn-outline-primary" style="position: absolute; top: 10px; right: 10px; padding: 5px 10px; cursor: pointer;">Kopieren</button>
+                                      </div>
+                                      
+                                      <script>
+                                        function copyText() {
+                                          var input = document.getElementById("exampleInputEmail-1");
+                                          input.select();
+                                          document.execCommand("Kopieren");
+                                          alert("Text in die Zwischenablage kopiert!");
+                                        }
+                                      </script>
+                                    
+                                    
                                     <div class="card text-white bg-primary border-0"></div><button class="btn btn-primary" type="button">Skript generieren</button>
                                 </div>
                             </div>
