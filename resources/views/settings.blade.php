@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function isValidHex(input) {
 var value = input.startsWith('#') ? input.slice(1) : input;
-// Entferne das # aus dem regulären Ausdruck, da wir es bereits oben behandelt haben
 var hexPattern = /^([0-9a-fA-F]{3}([0-9a-fA-F]{1})?|[0-9a-fA-F]{6}([0-9a-fA-F]{2})?)$/;
 if (hexPattern.test(value)) {
     return '#' + value.toUpperCase();
@@ -94,17 +93,7 @@ textInput.addEventListener('input', function() {
 });
 });
 });
-
-
-
-
-
-
-
 </script>
-
-
-
 
 </head>
 
@@ -168,7 +157,7 @@ textInput.addEventListener('input', function() {
                                     <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
                                         <div class="col">
                                             <label>
-                                                <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="\assets\img\designs\design_1.png">
                                                     <div class="card-body p-4">
                                                         <h4 class="card-title">Design 1</h4>
                                                         <div class="form-check"><input class="form-check-input" type="radio" id="design-1"  name="design_choice" value="1" {{ $settings['design_choice'] == 1 ? 'checked' : '' }}>Auswählen</div>
@@ -178,7 +167,7 @@ textInput.addEventListener('input', function() {
                                         </div>
                                         <div class="col">
                                             <label>
-                                                <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="\assets\img\designs\design_2.png">
                                                     <div class="card-body p-4">
                                                         <h4 class="card-title">Design 2</h4>
                                                         <div class="form-check"> <input class="form-check-input" type="radio" id="design-2" name="design_choice" value="2" {{ $settings['design_choice'] == 2 ? 'checked' : '' }}>Auswählen</div>
@@ -188,7 +177,7 @@ textInput.addEventListener('input', function() {
                                         </div>
                                         <div class="col">
                                             <label>
-                                                <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                <div class="card"><img class="card-img-top w-100 d-block fit-cover" style="height: 200px;" src="\assets\img\designs\design_3.png">
                                                     <div class="card-body p-4">
                                                         <h4 class="card-title">Design 3</h4>
                                                         <div class="form-check"><input class="form-check-input" type="radio" id="design-3" name="design_choice" value="3" {{ $settings['design_choice'] == 3 ? 'checked' : '' }}>Auswählen</div>
