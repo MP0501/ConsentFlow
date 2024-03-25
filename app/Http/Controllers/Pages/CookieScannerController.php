@@ -13,15 +13,18 @@ class CookieScannerController extends Controller
 {
     public function index(Request $request)
     {
+        // Benutzerinformationen abrufen
         $user = $request->user();
         $user_info = $user->user_info()->first();
         $photo = $user_info->photo;
 
+        // Vendors abrufen
         $first_name = $user_info->first_name;
         $consent_id = session()->get('ConsentId');
         $consents = $user->consents()->where('id', $consent_id)->first();
         $vendors = $consents->vendors()->get();
 
+        // PurposeID einem Text zuordnen
         $purposeMapping = [
             1 => "Information speichern/abrufen",
             2 => "Begrenzte Daten für Werbung",
@@ -36,7 +39,7 @@ class CookieScannerController extends Controller
             11 => "Begrenzte Daten zur Inhaltsauswahl verwenden",
         ];
 
-
+        //Verarbeite die Daten zu jedem Vendor
         $vendorsWithPurposes = [];
         foreach ($vendors as $vendor) {
             $purposes = $vendor->purposes()->pluck('purpose_id')->toArray();
@@ -59,7 +62,7 @@ class CookieScannerController extends Controller
                 'cookieMaxAgeSeconds' => $vendor->cookieMaxAgeSeconds,
             ];
         }
-
+        // View mit Daten anzeigen
         return view('cookieScanner', [
             'vendorsWithPurposes' => $vendorsWithPurposes,
             'vendors' => $vendors,
@@ -68,6 +71,7 @@ class CookieScannerController extends Controller
         ]);
     }
 
+    // Funktion zum Ändern eines Vendors
     public function change_vendor(Request $request)
     {
         $policy_url = $request->input('policy_url');
@@ -86,7 +90,7 @@ class CookieScannerController extends Controller
             'policy_url' => $policy_url,
             'script_to_implement' => $script_to_implement,
             'name' => $name,
-            'iab_id' => $iab_id ,
+            'iab_id' => $iab_id,
             'cookieMaxAgeSeconds' => $cookieMaxAgeSeconds,
         ]);
 
@@ -108,6 +112,7 @@ class CookieScannerController extends Controller
         return redirect()->route('cookieScanner');
     }
 
+    // Funktion zum Löschen eines Vendors
     public function delete_vendor(Request $request)
     {
         $vendor_id = $request->input('vendor_id');
@@ -126,7 +131,7 @@ class CookieScannerController extends Controller
 
 
 
-
+    // Funktion zum Hinzufügen eines Consent-Vendors
     public function addConsentVendor(Request $request)
     {
         $validatedData = $request->validate([
@@ -162,6 +167,8 @@ class CookieScannerController extends Controller
             return redirect()->back()->with('error', 'Fehler beim Speichern des Consent Vendors.');
         }
     }
+
+    // Funktion zum Starten des Cookie-Scanners
     public function startCookieScanner(Request $request)
     {
         $user = $request->user();
@@ -226,7 +233,6 @@ class CookieScannerController extends Controller
                         ]);
                     }
                 }
-                
             }
         }
 
@@ -237,7 +243,9 @@ class CookieScannerController extends Controller
         return redirect()->back()->with('success', 'Consent Vendor erfolgreich gescannt.');
     }
 
-    function updateScript(Consent $consent){
+    // Aktualisieren des Skriptes
+    function updateScript(Consent $consent)
+    {
         $consentSetting = $consent->settings()->get();
         $settings = [];
         foreach ($consentSetting as $setting) {
@@ -245,11 +253,11 @@ class CookieScannerController extends Controller
         }
 
 
-        $vendors=$consent->vendors()->get();
-        
+        $vendors = $consent->vendors()->get();
+
         $vendorsNew = [];
         foreach ($vendors as $vendor) {
-            array_push($vendorsNew,[
+            array_push($vendorsNew, [
                 'id' => $vendor->id,
                 'iab_id' => $vendor->iab_id,
                 'name' => $vendor->name,
@@ -259,7 +267,7 @@ class CookieScannerController extends Controller
             ]);
         }
 
-        $consent_id=$consent->id;
+        $consent_id = $consent->id;
         $sg = new ScriptGenerator($vendorsNew, $settings, $consent_id);
         $sg->generateScript();
         $sg->saveScript($consent_id);
