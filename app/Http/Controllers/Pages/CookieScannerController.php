@@ -87,7 +87,7 @@ class CookieScannerController extends Controller
             'script_to_implement' => $script_to_implement,
             'name' => $name,
             'iab_id' => $iab_id ,
-            'cookieMaxAgeSeconds' => $$cookieMaxAgeSeconds,
+            'cookieMaxAgeSeconds' => $cookieMaxAgeSeconds,
         ]);
 
         $new_purposes = [];
@@ -103,7 +103,7 @@ class CookieScannerController extends Controller
             ]);
         }
 
-        $this->updateScript($consent);
+        $this->updateScript($consents);
 
         return redirect()->route('cookieScanner');
     }
