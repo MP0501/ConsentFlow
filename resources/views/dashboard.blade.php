@@ -15,10 +15,36 @@
     <link rel="stylesheet" href="/assets/css/nav_bar.css">
     <link rel="stylesheet" href="/assets/css/Pricing-Duo-badges.css">
     <link rel="stylesheet" href="/assets/css/Pricing-Duo-icons.css">
+       <!-- jQuery  -->
+       <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body id="page-top">
     
+ <!-- Kündigen Popup-->
+ <div class="modal fade" id="kuendigen" tabindex="-1" aria-labelledby="kuendigenLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="kuendigenLabel">Kündigung nicht möglich</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            Diese Seite ist eine Demoversion und daher ist die Funktion zur Kündigung nicht verfügbar.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
     <div id="wrapper">
         <x-navbar />
         <div class="d-flex flex-column" id="content-wrapper">

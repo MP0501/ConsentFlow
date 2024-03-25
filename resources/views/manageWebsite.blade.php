@@ -27,8 +27,6 @@
 <body id="page-top">
 
 
-
-
     <!-- Modal Popup-->
 <div class="modal fade" id="cookieEditModal" tabindex="-1" aria-labelledby="cookieEditModalLabel" aria-hidden="true">
     <div class="modal-dialog">

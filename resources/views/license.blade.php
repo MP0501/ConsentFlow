@@ -15,9 +15,41 @@
     <link rel="stylesheet" href="assets/css/nav_bar.css">
     <link rel="stylesheet" href="assets/css/Pricing-Duo-badges.css">
     <link rel="stylesheet" href="assets/css/Pricing-Duo-icons.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 512'%3E%3Cpath d='M476 480H324a36 36 0 0 1 -36-36V96h-96v156a36 36 0 0 1 -36 36H16a16 16 0 0 1 -16-16v-32a16 16 0 0 1 16-16h112V68a36 36 0 0 1 36-36h152a36 36 0 0 1 36 36v348h96V260a36 36 0 0 1 36-36h140a16 16 0 0 1 16 16v32a16 16 0 0 1 -16 16H512v156a36 36 0 0 1 -36 36z'/%3E%3C/svg%3E">
+    <!-- jQuery  -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
+
+
+
 <body id="page-top">
+
+ <!-- Kündigen Popup-->
+ <div class="modal fade" id="kuendigen" tabindex="-1" aria-labelledby="kuendigenLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="kuendigenLabel">Kündigung nicht möglich</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            Diese Seite ist eine Demoversion und daher ist die Funktion zur Kündigung nicht verfügbar.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
     <div id="wrapper">
         <x-navbar />
         <div class="d-flex flex-column" id="content-wrapper">
@@ -105,7 +137,10 @@
                                                                 <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022"></path>
                                                             </svg></span><span>DGSVO und TCF 2.2 Konform</span></li>
                                                 </ul>
-                                            </div><a class="btn btn-primary d-block w-100 bg-white-300" role="button" href="#">Kündigen</a>
+                                            </div>
+                                            <a class="btn btn-primary d-block w-100 bg-white-300" role="button" data-toggle="modal" data-target="#kuendigen">
+                                                Kündigen
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Pages;
 
+use App\Mail\RechnungsMail;
+use App\Mail\RegistrationMail;
 use Barryvdh\DomPDF\PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class LicenseController extends Controller
 {
@@ -46,11 +51,18 @@ class LicenseController extends Controller
         if (is_null($user_info->address) || is_null($user_info->city) || is_null($user_info->country)) {
             return redirect('/license')->with('error', 'Bitte fülle deine Adressdaten aus, bevor du eine Rechnung generierst.');
         }
-        
+        $oneMonthAgo = Carbon::now()->subMonth();
+        $currentDate = Carbon::now();
+        $invoicePeriod = $oneMonthAgo->format('d.m.Y') . ' - ' . $currentDate->format('d.m.Y');
+
 
         $consent_id=session()->get('ConsentId');
+        error_log($currentDate );
         $Consent = $user->consents()->where('id',$consent_id)->first();
-        $all_count = $Consent->consentViews()->count();
+        $consent_views=$Consent->consentViews()->whereDate('created_at', '>=', $oneMonthAgo);
+        $all_count=$consent_views->count();
+        
+        
         $unit_price=0.01;
         $total_price=$all_count*$unit_price;
         $net_amount= $total_price;
@@ -65,6 +77,7 @@ class LicenseController extends Controller
             $gross_amount=$net_amount+$tax_amount;
         }
     $data = [
+        'invoicePeriod'=>$invoicePeriod,
         'is_basic_amount'=>$is_basic_amount,
         'basic_amount'=>$basic_amount,
         'unit_price' =>$unit_price,
@@ -85,6 +98,19 @@ class LicenseController extends Controller
 
     $pdf = app('dompdf.wrapper');
     $pdf->loadView('invoices.rechnung', $data);
+
+
+    $pdfPath = 'invoices/' . uniqid() . '.pdf';
+    Storage::disk('local')->put($pdfPath, $pdf->output());
+
+    Mail::send(['html' => 'emails.rechnung'], ['first_name' => $user->user_info()->first()->first_name], function($message) use ($user, $pdfPath) {
+        $message->to($user->email)
+                ->subject('Deine ConsentFlow Rechnung')
+                ->attach(storage_path('app/' . $pdfPath), [
+                    'as' => 'rechnung.pdf',
+                    'mime' => 'application/pdf',
+                ]);
+    });
 
     // PDF herunterladen
     return $pdf->download('invoices.rechnung.pdf');
