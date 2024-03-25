@@ -21,14 +21,13 @@ class ConsentController extends Controller
      */
     public function store(Request $request)
     {
-       
-            Consent_view::create([
-                'accept_value' => $request->accept_value,
-                'consent_id' => $request->consent_id,
-            ]);
+        // Neuer Eintrag in Consent_views erstellen
+        Consent_view::create([
+            'accept_value' => $request->accept_value,
+            'consent_id' => $request->consent_id,
+        ]);
 
         return response()->json(['message' => 'Consent updated successfully'], 200);
-    
     }
 
     /**
