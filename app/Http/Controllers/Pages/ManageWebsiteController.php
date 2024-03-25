@@ -57,7 +57,7 @@ class ManageWebsiteController extends Controller
                     ]);
                 }
 
-                $sg = new ScriptGenerator($vendorsNew, $settings);
+                $sg = new ScriptGenerator($vendorsNew, $settings, $consentId);
                 $sg->generateScript();
                 $sg->getScript();
                 return redirect('/manageWebsite');
