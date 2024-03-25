@@ -3421,7 +3421,7 @@
         :root {
             --cst_banner_width: %banner_width%px;
             --cst_banner_background: %banner_background%;
-            --cst_banner_overlap_color: rgb(0, 0, 0, 0);
+            --cst_banner_overlap_color: rgb(0, 0, 0, 0.2);
             --cst_banner_border_radius: %banner_border_radius%px;
             --cst_banner_border_color: transparent;
             --cst_banner_border_width:  0px;

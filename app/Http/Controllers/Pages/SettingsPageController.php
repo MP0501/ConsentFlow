@@ -14,8 +14,6 @@ class SettingsPageController extends Controller
 {
     protected $defaultValues = [
         'design_choice' => '1',
-        'banner_width' => '500',
-        'banner_max_height' => '800',
         'banner_background' => '#ffffff',
         'banner_border_radius' => '20',
         'headline_text' => 'Wir nutzen Cookies',
@@ -47,7 +45,6 @@ class SettingsPageController extends Controller
         'imprint' => "https://deine.url/impressum",
         'privacy_url' => "https://deine.url/datenschutzerklärung",
         'save_settings' => "Speichern",
-        'setting_icon' => "https://brawltown.net/img/BT-Logo.webp",
         'icon' => "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Universität_Würzburg_Logo.svg/200px-Universität_Würzburg_Logo.svg.png",
     ];
     
@@ -94,8 +91,6 @@ class SettingsPageController extends Controller
 
         $request->validate([
             'design_choice' => 'required|integer|between:1,3', 
-            'banner_max_height' => 'required|numeric|min:100|max:3000',
-            'banner_width' => 'required|numeric|min:100|max:3000', 
             'banner_border_radius' => 'required|numeric|min:0|max:50', 
             'headline_text' => 'required|string|max:100', 
             'headline_size' => 'required|numeric|min:10|max:50', 
@@ -114,7 +109,6 @@ class SettingsPageController extends Controller
             'imprint' => ['required', 'url'],
             'privacy_url' => 'required|url',
             'save_settings' => 'required|string|max:50', 
-            'setting_icon' => 'required|url', 
             'icon' => 'required|url'
         ]);
 

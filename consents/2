@@ -3353,9 +3353,9 @@
     return null;
   }
   var ConsentFlow = () => {
-    let generateDate = 1711376400;
+    let generateDate = 1711378841;
     let consentId = 2;
-    let vendors = [];
+    let vendors = [{"id":1,"iab_id":null,"name":"Test","purposes":[1],"policyUrl":"https:\/\/blurry.kostenlosealternative.de\/datenschutz\/","cookieMaxAgeSeconds":null}];
     let vendorsAllowed = [];
     let purposes = {};
     let purposesAllowed = [];
@@ -3429,7 +3429,7 @@
             --cst_banner_position_left: 50%;
             --cst_banner_position_top: 50%;
             --cst_headline_size: 25px;
-            --cst_headline_color: #A96363;
+            --cst_headline_color: rgb(0,0,0);
             --cst_headline2_size: 14px;
             --cst_headline2_color: rgb(31, 31, 31);
             --cst_paragraph_size: 14px;

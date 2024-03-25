@@ -3353,9 +3353,9 @@
     return null;
   }
   var ConsentFlow = () => {
-    let generateDate = 1711378532;
+    let generateDate = 1711379034;
     let consentId = 6;
-    let vendors = [{"id":2,"iab_id":"755","name":"Google Advertising Products","purposes":[2,3,4],"policyUrl":"https:\/\/business.safety.google\/privacy\/","cookieMaxAgeSeconds":34190000}];
+    let vendors = [];
     let vendorsAllowed = [];
     let purposes = {};
     let purposesAllowed = [];

@@ -272,7 +272,7 @@
                 case "left":
                     $template = str_replace('%postion_left%', $value, $template);
                     break;
-                case "design":
+                case "design_choice":
                     switch($value){
                         case 1:
                             $template = str_replace('%postion_left%', "50%", $template);
