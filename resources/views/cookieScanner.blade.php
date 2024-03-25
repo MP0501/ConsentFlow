@@ -99,7 +99,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
-          <button type="submit" class="btn btn-primary">Änderungen speichern</button></form>
+          <button type="submit" class="btn btn-primary">Vendor hinzufügen</button></form>
         </div>
       </div>
     </div>
@@ -167,7 +167,7 @@
         document.getElementById('vendor_id_hidden').value = id;
         document.getElementById('script_to_implement').value = script_to_implement;
         document.getElementById('vendor_policyURL').value = vendorPolicyURL;
-        $('#cookieEditModal').modal('show');
+        
     }
 </script>
 
