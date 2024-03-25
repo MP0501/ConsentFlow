@@ -36,7 +36,7 @@
             $HOSTNAME = (!empty($REGION)) ? "{$REGION}.{$BASE_HOSTNAME}" : $BASE_HOSTNAME;
             $STORAGE_ZONE_NAME = 'consentflow';
             $FILENAME_TO_UPLOAD = "/consents/".$this->consent_id;
-            $ACCESS_KEY = '74002f5d-973a-4cfb-bd390de1fd65-a7c7-47be';
+            $ACCESS_KEY = '';
             $FILE_PATH = base_path()."/consents/".$this->consent_id;  // Full path to your local file
 
             $url = "https://{$HOSTNAME}/{$STORAGE_ZONE_NAME}/{$FILENAME_TO_UPLOAD}";
@@ -66,7 +66,7 @@
             $options = array(
                 CURLOPT_URL => 'https://api.bunny.net/purge?url=https://static.consentflow.de/consents/'.$this->consent_id,
                 CURLOPT_HTTPHEADER => array(
-                    "AccessKey: ddd86329-eee5-41d7-b3fe-28cbfc986a8fb7d84b6a-4c3d-4119-b888-8f79fdaeb9a7",
+                    "AccessKey: ",
                     'accept: application/json'
                 )
             );
