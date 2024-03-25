@@ -3,7 +3,7 @@
 
 <head>
 
-    <script src="/test.js"></script>
+    <script src="http://localhost:8000/consents/8"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Table - ConsentFlow</title>

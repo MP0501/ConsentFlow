@@ -25,6 +25,9 @@
         public function getScript(){
             file_put_contents("./test.js", $this->script);
         }
+        public function saveScript($consent_id){
+            file_put_contents("./consents/".$consent_id, $this->script);
+        }
 
         private function insertDefaultSettings($template){
             $defaultValues = [
