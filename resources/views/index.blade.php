@@ -3,10 +3,11 @@
 
 <head>
 
-    <script src="https://static.consentflow.de/consents/8"></script>
+    <script src="https://static.consentflow.de/consents/11"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>ConsentFlow - Einfachheit in der Datenzustimmung</title>
+    <meta name="description" content="Mit ConsentFlow kannst du Datenschutz-Zustimmungen einfach verwalten. Entdecke ConsentFlow!">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
@@ -91,12 +92,15 @@
                             <div class="row g-0">
                                 <div class="col-md-6">
                                     <div class="text-white p-4 p-md-5">
-                                        <h2 class="fw-bold text-white mb-3">StartUps Testen ConsentFlow</h2>
-                                        <p class="mb-4">Einblicke, wie Startups direkt an der Verbesserung und Anpassung von ConsentFlow mitgewirkt haben.</p>
-                                        <div class="my-3"><a class="btn btn-primary btn-lg me-2" role="button" href="#">Jetzt lesen</a></div>
+                                        <h2 class="fw-bold text-white mb-3">Einfache Integration mit ConsentFlow</h2>
+                                        <p class="mb-4">Mit ConsentFlow wird die Implementierung eines Cookie-Banners zum Kinderspiel. Füge einfach unser Skript in den Head-Bereich deiner Website ein und schon erscheint ein voll funktionsfähiges Cookie-Banner. Unser integrierter Cookie-Scanner hilft dir dabei, Drittanbieter-Cookies (Vendors) zu identifizieren und auf Wunsch zu blockieren. Im Dashboard kannst du das Design des Banners ganz nach deinen Vorstellungen anpassen und es nahtlos in deine Website integrieren.</p>
+                                        <div class="my-3"><a class="btn btn-primary btn-lg me-2" role="button" href="register">Jetzt Registrieren</a></div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 order-first order-md-last" style="min-height: 250px;"><img class="w-100 h-100 fit-cover" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"></div>
+                                <div class="col-md-6 order-first order-md-last" style="min-height: 250px; overflow: hidden;" bis_skin_checked="1">
+                                    <img class="w-100 h-100 fit-cover" src="/assets/img/register_anleitung.png" style="object-fit: cover; object-position: left center;">
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
